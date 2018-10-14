@@ -98,7 +98,7 @@ class MainWindow(Gtk.Window):
         return views
 
     def sessionsDesign(self):
-        sessionsViewCol = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=50)
+        sessionsViewCol = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
         thisListBox = Gtk.ListBox()
         sessionsViewCol.add(thisListBox)
@@ -110,32 +110,148 @@ class MainWindow(Gtk.Window):
         titleBox.set_child_packing(labelSessions, 1, 1, 80, 0)
 
         # Sessions View tab
-        sessionsTab = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-
+        sessionsTab = self.sessionsArea()
 
         # Tag Area
-        tagAreaTab = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-
+        tagAreaTab = self.tagArea()
 
         thisListBox.add(titleBox)
         thisListBox.add(sessionsTab)
         thisListBox.add(tagAreaTab)
+
         return sessionsViewCol
 
+    def sessionsArea(self):
+        sessionsTab = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+
+        # TODO DON'T KNOW HOW TO DO SESSIONS HELP
+
+        grid = Gtk.Grid()
+        sessionsTab.add(grid)
+        grid.set_row_spacing(5)
+
+        workspaceLabel = Gtk.Label("Workspace X")
+        sessionA = Gtk.Label("Session A")
+        state1 = Gtk.Label("State 1")
+        state2 = Gtk.Label("State 2")
+        sessionB = Gtk.Label("Session B")
+        sessionC = Gtk.Label("Session C")
+
+        grid.add(workspaceLabel)
+        grid.attach_next_to(sessionA, workspaceLabel, Gtk.PositionType.BOTTOM, 1, 1)
+        grid.attach_next_to(state1, sessionA, Gtk.PositionType.BOTTOM, 1, 1)
+        grid.attach_next_to(state2, state1, Gtk.PositionType.BOTTOM, 1, 1)
+        grid.attach_next_to(sessionB, state2, Gtk.PositionType.BOTTOM, 1, 1)
+        grid.attach_next_to(sessionC, sessionB, Gtk.PositionType.BOTTOM, 1, 1)
+
+        return sessionsTab
+
+    def tagArea(self):
+        tagAreaTab = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+
+        grid = Gtk.Grid()
+        tagAreaTab.add(grid)
+        grid.set_column_spacing(10)
+        grid.set_row_spacing(5)
+
+        # title
+        tagLabel = Gtk.Label()
+        tagLabel.set_markup("<u>Tag Area</u>")
+
+        # labels
+        savedLabel = Gtk.Label("Saved Tag")
+        nameLabel = Gtk.Label("Tag Name")
+        fieldLabel = Gtk.Label("Tag Field")
+        descriptionLabel = Gtk.Label("Tag Description")
+
+        # drop down menu
+        # TODO HAVE TO ESTABLISH THE INSIDE OF THE DROPDOWN
+        savedCombo = Gtk.ComboBox()
+
+        # text boxes
+        nameEntry = Gtk.Entry()
+        fieldEntry = Gtk.Entry()
+        descriptionEntry = Gtk.Entry()
+
+        # buttons
+        buttonBox = Gtk.Box()
+        buttonBox.set_homogeneous(True)
+        buttonBox.set_spacing(5)
+        updateBtn = Gtk.Button(label="Update")
+        cancelBtn = Gtk.Button(label="Cancel")
+        buttonBox.pack_end(cancelBtn, True, True, 0)
+        buttonBox.add(updateBtn)
+
+        #adding to grid
+        grid.add(tagLabel)
+        grid.attach_next_to(savedLabel, tagLabel, Gtk.PositionType.BOTTOM, 1, 1)
+        grid.attach_next_to(savedCombo, savedLabel, Gtk.PositionType.RIGHT, 2, 1)
+        grid.attach_next_to(nameLabel, savedLabel, Gtk.PositionType.BOTTOM, 1, 1)
+        grid.attach_next_to(nameEntry, nameLabel, Gtk.PositionType.RIGHT, 2, 1)
+        grid.attach_next_to(fieldLabel, nameLabel, Gtk.PositionType.BOTTOM, 1, 1)
+        grid.attach_next_to(fieldEntry, fieldLabel, Gtk.PositionType.RIGHT, 2, 1)
+        grid.attach_next_to(descriptionLabel, fieldLabel, Gtk.PositionType.BOTTOM, 1, 1)
+        grid.attach_next_to(descriptionEntry, descriptionLabel, Gtk.PositionType.RIGHT, 2, 1)
+        grid.attach_next_to(buttonBox, descriptionEntry, Gtk.PositionType.BOTTOM, 1, 1)
+
+        return tagAreaTab
+
     def pdmlDesign(self):
-        pdmlViewCol = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=50)
+        pdmlViewCol = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
         thisListBox = Gtk.ListBox()
         pdmlViewCol.add(thisListBox)
 
+        # title "PDML View" area
         titleBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=50)
         labelPDML = Gtk.Label("PDML View")
         titleBox.add(labelPDML)
-        titleBox.set_child_packing(labelPDML, 1, 1, 325, 0)
+        titleBox.set_child_packing(labelPDML, 1, 1, 350, 0)
+
+        # pdml view header
+        headerTab = self.pdmlHeader()
+
+        # filter area
+        #filterTab = self.filterArea()
+
+        # packet area
+        #packetTab = self.packetArea()
+
+        # bottom pdml view
+        #bottomTab = self.bottomArea()
 
         thisListBox.add(titleBox)
+        thisListBox.add(headerTab)
+        #thisListBox.add(filterTab)
+        #thisListBox.add(packetTab)
+        #thisListBox.add(bottomTab)
 
         return pdmlViewCol
+
+    def pdmlHeader(self):
+        header = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        # TODO fix spacing
+
+        # text boxes
+        newStateNameEntry = Gtk.Entry()
+        renameCurrentEntry = Gtk.Entry()
+
+        # buttons
+        saveNewBtn = Gtk.Button(label="Save as New\nPDML State")
+        saveCurrentBtn = Gtk.Button(label="Save Current\nPDML State")
+        closeCurrentBtn = Gtk.Button(label="Close Current\nPDML State")
+        deleteCurrentBtn = Gtk.Button(label="Delete Current\nPDML State")
+        renameCurrentBtn = Gtk.Button(label="Rename Current\nPDML State")
+
+        header.add(newStateNameEntry)
+        header.add(saveNewBtn)
+        header.add(saveCurrentBtn)
+        header.add(closeCurrentBtn)
+        header.add(deleteCurrentBtn)
+        header.add(renameCurrentEntry)
+        header.add(renameCurrentBtn)
+
+        return header
 
 window = MainWindow()
 window.connect("destroy", Gtk.main_quit)
