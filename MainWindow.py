@@ -8,7 +8,7 @@ class MainWindow(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title="NTSBG")
         self.set_border_width(10)
-        #self.set_default_size(400,200)
+        self.set_default_size(1100,200)
 
         # initialize header bar
         header = self.header()
@@ -30,6 +30,9 @@ class MainWindow(Gtk.Window):
         hb = Gtk.HeaderBar()
         hb.props.title = "Network Traffic Based Software Generation"
         self.set_titlebar(hb)
+
+        # title = Gtk.Label()
+        # title.set_markup("Network Traffic Based Software Generation")
 
         button = Gtk.Button(label="x")
         button.set_relief(Gtk.ReliefStyle.NONE)
@@ -212,7 +215,7 @@ class MainWindow(Gtk.Window):
         headerTab = self.pdmlHeader()
 
         # filter area
-        #filterTab = self.filterArea()
+        filterTab = self.filterArea()
 
         # packet area
         #packetTab = self.packetArea()
@@ -222,7 +225,7 @@ class MainWindow(Gtk.Window):
 
         thisListBox.add(titleBox)
         thisListBox.add(headerTab)
-        #thisListBox.add(filterTab)
+        thisListBox.add(filterTab)
         #thisListBox.add(packetTab)
         #thisListBox.add(bottomTab)
 
@@ -252,6 +255,48 @@ class MainWindow(Gtk.Window):
         header.add(renameCurrentBtn)
 
         return header
+
+    def filterArea(self):
+        filterTab = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+
+        grid = Gtk.Grid()
+        filterTab.add(grid)
+        lineBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+
+
+        # labels
+        nameLabel = Gtk.Label()
+        nameLabel.set_markup("<u>Filter Area</u>")
+        nameLabel.set_justify(Gtk.Justification.LEFT)
+        filterLabel = Gtk.Label("Filter")
+
+        # buttons
+        applyNewBtn = Gtk.Button("Apply")
+        clearBtn = Gtk.Button("Clear")
+        saveBtn = Gtk.Button("Save")
+        applyFilterBtn = Gtk.Button("Apply")
+
+        # text box (entry)
+        newFilter = Gtk.Entry()
+
+        # drop down
+        # TODO HAVE TO ESTABLISH THE filters saved OF THE DROPDOWN
+        savedFilters = Gtk.ComboBox()
+
+        # adding second line into box
+        lineBox.add(filterLabel)
+        lineBox.pack_start(newFilter, True, True, 5)
+        lineBox.pack_start(applyNewBtn, True, True, 5)
+        lineBox.pack_start(clearBtn, True, True, 5)
+        lineBox.pack_start(saveBtn, True, True, 5)
+        lineBox.pack_start(savedFilters, True, True, 5)
+        lineBox.pack_start(applyFilterBtn, True, True, 5)
+
+        # adding to grid
+        grid.add(nameLabel)
+        grid.attach_next_to(lineBox, nameLabel, Gtk.PositionType.BOTTOM, 1, 1)
+
+        return filterTab
 
 window = MainWindow()
 window.connect("destroy", Gtk.main_quit)
