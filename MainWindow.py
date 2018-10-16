@@ -32,9 +32,6 @@ class MainWindow(Gtk.Window):
         hb.props.title = "Network Traffic Based Software Generation"
         self.set_titlebar(hb)
 
-        # title = Gtk.Label()
-        # title.set_markup("Network Traffic Based Software Generation")
-
         button = Gtk.Button(label="x")
         button.set_relief(Gtk.ReliefStyle.NONE)
         button.connect("clicked", Gtk.main_quit)
