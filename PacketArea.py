@@ -21,7 +21,7 @@ def Tabs():
     # Box for title 
     titleBox = Gtk.Box() 
     labelTitle = Gtk.Label()
-    labelTitle.set_markup("<u>Message Type Area</u>")
+    labelTitle.set_markup("<u>Packet Area</u>")
     
     titleBox.set_child_packing(labelTitle, True, True, 100,0)
     titleBox.add(labelTitle)

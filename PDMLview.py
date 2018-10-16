@@ -9,7 +9,7 @@ Created on Mon Oct 15 19:19:42 2018
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
-import MessageTypeArea
+import MessageTypeArea, PacketArea, FieldArea
 
 def pdmlDesign():
     
@@ -30,7 +30,7 @@ def pdmlDesign():
     # child is packed into box (item, expand, fill, padding, packtype)
     titleBox.set_child_packing(labelPDML, True, True, 100, 0)
     # Homogeneous
-    #titleBox.set_homogeneous(True)
+    titleBox.set_homogeneous(True)
     # Adding into primary list box 
     pdmlListBox.add(titleBox)
     
@@ -38,19 +38,36 @@ def pdmlDesign():
     menu = pdmlMenu()
     pdmlListBox.add(menu)
     
+    
+    
     # filter area
     filterTab = filterArea()
     pdmlListBox.add(filterTab)
+    #grid.add(filterTab)
 
-    # Message Type Area 
-    messTypeArea=MessageTypeArea.Tabs()
-    pdmlListBox.add(messTypeArea)
+    grid = Gtk.Grid()
+    pdmlListBox.add(grid)
     
     # packet area
-    #packetTab = self.packetArea()
+    packetArea = PacketArea.Tabs()
+    grid.add(packetArea)
 
-    # bottom pdml view
-    #bottomTab = self.bottomArea()
+    # Field Area
+    fieldArea = FieldArea.Tabs()
+    #grid.attach_next_to(fieldArea,filterTab,Gtk.PositionType.BOTTOM,1,1)
+    grid.attach(fieldArea,0,1,1,1)
+    
+    # Message Type Area 
+    messTypeArea = MessageTypeArea.Tabs()
+    #pdmlListBox.add(messTypeArea)
+    grid.attach(messTypeArea,2,1,1,1)
+    
+    buttonBox = Gtk.Box()
+    plusButton = Gtk.Button("+")
+    minusButton = Gtk.Button("-")
+    buttonBox.add(plusButton)
+    buttonBox.add(minusButton)
+    grid.attach(buttonBox, 1,1,1,1)
 
     #thisListBox.add(packetTab)
     #thisListBox.add(bottomTab)
@@ -59,8 +76,9 @@ def pdmlDesign():
 
 def pdmlMenu():
     header = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+    
+    # WARNING THIS BREAKS LAYOUT
     #header.set_homogeneous(True)
-    # TODO fix spacing
 
     # text boxes
     newStateNameEntry = Gtk.Entry()
@@ -92,7 +110,7 @@ def filterArea():
     
     # Starting box for filter 
     filterBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-    #filterBox.set_homogeneous(True)
+    filterBox.set_homogeneous(True)
     
     # Starting list box for title
     filterListBox = Gtk.ListBox()
@@ -114,7 +132,6 @@ def filterArea():
     
     # Starting second row    
     lineBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-
     
     #nameLabel.set_justify(Gtk.Justification.LEFT)
     filterLabel = Gtk.Label("Filter")

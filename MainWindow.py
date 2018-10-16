@@ -1,7 +1,7 @@
 import gi
 import PDMLview
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 code = [("Frame 718: frame, eth, ip, tcp", 74),
         ("   Frame 718: 74 bytes on wire (592 bits), 74 bytes captured (592 bits) on interface 0", 20),
@@ -16,8 +16,9 @@ class MainWindow(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title="NTSBG")
+      
         self.set_border_width(10)
-        self.set_default_size(1100,200)
+        #self.set_default_size(s.get_width(), s.get_height())
 
 
         # initialize header bar
@@ -236,4 +237,6 @@ class MainWindow(Gtk.Window):
 window = MainWindow()
 window.connect("destroy", Gtk.main_quit)
 window.show_all()
+# Maximize window 
+window.maximize()
 Gtk.main()
