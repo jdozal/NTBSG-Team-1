@@ -3,15 +3,6 @@ import PDMLview
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gdk
 
-code = [("Frame 718: frame, eth, ip, tcp", 74),
-        ("   Frame 718: 74 bytes on wire (592 bits), 74 bytes captured (592 bits) on interface 0", 20),
-        ("   Ethernet II, Src: Elitegro_dd:12:cd (00:19:21:dd:12:cd), Dst: Broadcom_de:ad:05 (00:10:18:de:ad:05)", 25),
-        ("   Internet Control Message Protocol", 25),
-        ("   Transmission Control Protocol, Src Port: 55394 (55394), Dst Port: 80, Seq: 0, Len: 0", 25),
-        ("Frame 767: frame, eth, ip, tcp", 0),
-        ("Frame 768: frame, eth, ip, tcp", 0),
-        ("Frame 769: frame, eth, ip, tcp, http", 0)]
-
 class MainWindow(Gtk.Window):
 
     def __init__(self):
@@ -19,7 +10,6 @@ class MainWindow(Gtk.Window):
       
         self.set_border_width(10)
         #self.set_default_size(s.get_width(), s.get_height())
-
 
         # initialize header bar
         header = self.header()

@@ -37,37 +37,21 @@ def pdmlDesign():
     # pdml menu
     menu = pdmlMenu()
     pdmlListBox.add(menu)
-    
-    
-    
+
     # filter area
     filterTab = filterArea()
     pdmlListBox.add(filterTab)
-    #grid.add(filterTab)
+    # grid.add(filterTab)
 
-    grid = Gtk.Grid()
-    pdmlListBox.add(grid)
+    # pdmlListBox.add(grid)
     
     # packet area
     packetArea = PacketArea.Tabs()
-    grid.add(packetArea)
+    # grid.add(packetArea)
+    pdmlListBox.add(packetArea)
 
-    # Field Area
-    fieldArea = FieldArea.Tabs()
-    #grid.attach_next_to(fieldArea,filterTab,Gtk.PositionType.BOTTOM,1,1)
-    grid.attach(fieldArea,0,1,1,1)
-    
-    # Message Type Area 
-    messTypeArea = MessageTypeArea.Tabs()
-    #pdmlListBox.add(messTypeArea)
-    grid.attach(messTypeArea,2,1,1,1)
-    
-    buttonBox = Gtk.Box()
-    plusButton = Gtk.Button("+")
-    minusButton = Gtk.Button("-")
-    buttonBox.add(plusButton)
-    buttonBox.add(minusButton)
-    grid.attach(buttonBox, 1,1,1,1)
+    bottomPart = bottomPDMLView()
+    pdmlListBox.add(bottomPart)
 
     #thisListBox.add(packetTab)
     #thisListBox.add(bottomTab)
@@ -157,8 +141,29 @@ def filterArea():
     lineBox.pack_start(saveBtn, True, True, 0)
     lineBox.pack_start(savedFilters, True, True, 0)
     lineBox.pack_start(applyFilterBtn, True, True, 0)
-    
 
     filterListBox.add(lineBox)
 
     return filterBox
+
+def bottomPDMLView():
+    box = Gtk.Box()
+    grid = Gtk.Grid()
+    box.add(grid)
+
+    # Field Area
+    fieldArea = FieldArea.Tabs()
+    grid.attach(fieldArea,0,1,1,1)
+
+    # Message Type Area
+    messTypeArea = MessageTypeArea.Tabs()
+    grid.attach(messTypeArea,2,1,1,1)
+
+    buttonBox = Gtk.VBox()
+    plusButton = Gtk.Button("+")
+    minusButton = Gtk.Button("-")
+    buttonBox.add(plusButton)
+    buttonBox.add(minusButton)
+    grid.attach(buttonBox, 1, 1, 1, 1)
+
+    return box

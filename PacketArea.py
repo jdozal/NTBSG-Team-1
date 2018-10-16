@@ -10,55 +10,62 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
+code = [("Frame 718: frame, eth, ip, tcp", 74),
+        ("   Frame 718: 74 bytes on wire (592 bits), 74 bytes captured (592 bits) on interface 0", 20),
+        ("   Ethernet II, Src: Elitegro_dd:12:cd (00:19:21:dd:12:cd), Dst: Broadcom_de:ad:05 (00:10:18:de:ad:05)", 25),
+        ("   Internet Control Message Protocol", 25),
+        ("   Transmission Control Protocol, Src Port: 55394 (55394), Dst Port: 80, Seq: 0, Len: 0", 25),
+        ("Frame 767: frame, eth, ip, tcp", 0),
+        ("Frame 768: frame, eth, ip, tcp", 0),
+        ("Frame 769: frame, eth, ip, tcp, http", 0)]
+
 def Tabs():
-    # Box for tabs section
-    tabs = Gtk.Box()
-    
-    # List box for tabs section
-    tabsList = Gtk.ListBox()
-    tabs.add(tabsList)
-    
-    # Box for title 
-    titleBox = Gtk.Box() 
-    labelTitle = Gtk.Label()
-    labelTitle.set_markup("<u>Packet Area</u>")
-    
-    titleBox.set_child_packing(labelTitle, True, True, 100,0)
-    titleBox.add(labelTitle)
-    
-    tabsList.add(titleBox)
+    packetTab = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
 
-    notebook = Gtk.Notebook()
+    grid = Gtk.Grid()
+    packetTab.add(grid)
 
-    #New/Modify Page
-    newPage = Gtk.Box()
-    newPage.set_border_width(10)
-    newPage.add(Gtk.Label("content Main"))
-    notebook.append_page(newPage, Gtk.Label("New/Modify"))
+    # name of area
+    nameLabel = Gtk.Label()
+    nameLabel.set_markup("<u>Packet Area</u>")
+    grid.add(nameLabel)
 
-    #Dependency Page
-    dependencyPage = Gtk.Box()
-    dependencyPage.set_border_width(10)
-    dependencyPage.add(Gtk.Label("content 2"))
-    notebook.append_page(dependencyPage, Gtk.Label("Dependency"))
+    # initializing box where packet will be
+    panelGrid = Gtk.Grid()
+    grid.attach_next_to(panelGrid, nameLabel, Gtk.PositionType.BOTTOM, 1, 1)
 
-    #Template Page
-    templatePage = Gtk.Box()
-    templatePage.set_border_width(10)
-    templatePage.add(Gtk.Label("content Main"))
-    notebook.append_page(templatePage, Gtk.Label("Template"))
+    # left hand side where packet code is
+    codeBox = Gtk.Box()
+    panelGrid.add(codeBox)
 
-    #Equivalency Page
-    equivalencyPage = Gtk.Box()
-    equivalencyPage.set_border_width(10)
-    equivalencyPage.add(Gtk.Label("content Main"))
-    notebook.append_page(equivalencyPage, Gtk.Label("Equivalency"))
+    # Convert data to liststore (to display on treeviews)
+    code_list = Gtk.ListStore(str, int)
+    for item in code:
+        code_list.append(list(item))
 
-    #Generation Page
-    generationPage = Gtk.Box()
-    generationPage.set_border_width(10)
-    generationPage.add(Gtk.Label("content Main"))
-    notebook.append_page(generationPage, Gtk.Label("Generation"))
-    
-    tabsList.add(notebook)
-    return tabs
+    # TreeView
+    code_tree = Gtk.TreeView(code_list)
+
+    for i, col_title in enumerate(["Frame", "Size"]):
+        # how to draw the data
+        renderer = Gtk.CellRendererText()
+
+        # create columns
+        column = Gtk.TreeViewColumn(col_title, renderer, text=i)
+
+        # add columns
+        code_tree.append_column(column)
+
+    # add treeview
+    codeBox.add(code_tree)
+
+    # right hand side buttons
+    btnBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+    panelGrid.attach_next_to(btnBox, codeBox, Gtk.PositionType.RIGHT, 1, 1)
+
+    removeBtn = Gtk.Button(label="Remove")
+    clearBtn = Gtk.Button(label="Clear")
+    btnBox.pack_end(clearBtn, True, True, 1)
+    btnBox.pack_end(removeBtn, True, True, 1)
+
+    return packetTab
