@@ -2,6 +2,14 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
+code = [("Frame 718: frame, eth, ip, tcp", 74),
+        ("   Frame 718: 74 bytes on wire (592 bits), 74 bytes captured (592 bits) on interface 0", 20),
+        ("   Ethernet II, Src: Elitegro_dd:12:cd (00:19:21:dd:12:cd), Dst: Broadcom_de:ad:05 (00:10:18:de:ad:05)", 25),
+        ("   Internet Control Message Protocol", 25),
+        ("   Transmission Control Protocol, Src Port: 55394 (55394), Dst Port: 80, Seq: 0, Len: 0", 25),
+        ("Frame 767: frame, eth, ip, tcp", 0),
+        ("Frame 768: frame, eth, ip, tcp", 0),
+        ("Frame 769: frame, eth, ip, tcp, http", 0)]
 
 class MainWindow(Gtk.Window):
 
@@ -132,8 +140,31 @@ class MainWindow(Gtk.Window):
         grid = Gtk.Grid()
         sessionsTab.add(grid)
         grid.set_row_spacing(5)
-
+        #
+        # Stack
+        # stack = Gtk.Stack()
+        # stack.set_transition_type(Gtk.StackTransitionType.SLIDE_DOWN)
+        # stack.set_transition_duration(1000)
+        #
+        # state1 = Gtk.Button(label="State 1")
+        # stack.add_titled(state1, "s1", "State1")
+        #
+        # state2 = Gtk.Button(label="State 2")
+        # stack.add_titled(state2, "s2", "State2")
+        #
+        # # switcher
+        # switcher = Gtk.StackSwitcher()
+        # switcher.set_stack(stack)
+        #
         workspaceLabel = Gtk.Label("Workspace X")
+        # grid.add(workspaceLabel)
+        # # state1Btn = Gtk.Button(label="State 1")
+        # # state2Btn = Gtk.Button(label="State 2")
+        #
+        # grid.attach_next_to(switcher, workspaceLabel, Gtk.PositionType.BOTTOM, 1, 1)
+        # grid.attach_next_to(stack, switcher, Gtk.PositionType.BOTTOM, 1, 1)
+
+
         sessionA = Gtk.Label("Session A")
         state1 = Gtk.Label("State 1")
         state2 = Gtk.Label("State 2")
@@ -218,7 +249,7 @@ class MainWindow(Gtk.Window):
         filterTab = self.filterArea()
 
         # packet area
-        #packetTab = self.packetArea()
+        packetTab = self.packetArea()
 
         # bottom pdml view
         #bottomTab = self.bottomArea()
@@ -226,7 +257,7 @@ class MainWindow(Gtk.Window):
         thisListBox.add(titleBox)
         thisListBox.add(headerTab)
         thisListBox.add(filterTab)
-        #thisListBox.add(packetTab)
+        thisListBox.add(packetTab)
         #thisListBox.add(bottomTab)
 
         return pdmlViewCol
@@ -267,7 +298,7 @@ class MainWindow(Gtk.Window):
         # labels
         nameLabel = Gtk.Label()
         nameLabel.set_markup("<u>Filter Area</u>")
-        nameLabel.set_justify(Gtk.Justification.LEFT)
+        # nameLabel.set_justify(Gtk.Justification.LEFT)
         filterLabel = Gtk.Label("Filter")
 
         # buttons
@@ -297,6 +328,59 @@ class MainWindow(Gtk.Window):
         grid.attach_next_to(lineBox, nameLabel, Gtk.PositionType.BOTTOM, 1, 1)
 
         return filterTab
+
+    def packetArea(self):
+        packetTab = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+
+        grid = Gtk.Grid()
+        packetTab.add(grid)
+
+        # name of area
+        nameLabel = Gtk.Label()
+        nameLabel.set_markup("<u>Packet Area</u>")
+        grid.add(nameLabel)
+
+        # initializing box where packet will be
+        panelGrid = Gtk.Grid()
+        grid.attach_next_to(panelGrid, nameLabel, Gtk.PositionType.BOTTOM,1, 1)
+
+        # left hand side where packet code is
+        codeBox = Gtk.Box()
+        panelGrid.add(codeBox)
+
+        # Convert data to liststore (to display on treeviews)
+        code_list = Gtk.ListStore(str, int)
+        for item in code:
+            code_list.append(list(item))
+
+        # TreeView
+        code_tree = Gtk.TreeView(code_list)
+
+        for i, col_title in enumerate(["Frame", "Size"]):
+            # how to draw the data
+            renderer = Gtk.CellRendererText()
+
+            # create columns
+            column = Gtk.TreeViewColumn(col_title, renderer, text=i)
+
+            # add columns
+            code_tree.append_column(column)
+
+        # add treeview
+        codeBox.add(code_tree)
+
+
+        # right hand side buttons
+        btnBox = Gtk.Box(orientation= Gtk.Orientation.VERTICAL)
+        panelGrid.attach_next_to(btnBox, codeBox, Gtk.PositionType.RIGHT, 1, 1)
+
+        removeBtn = Gtk.Button(label="Remove")
+        clearBtn = Gtk.Button(label="Clear")
+        btnBox.pack_end(clearBtn, True, True, 1)
+        btnBox.pack_end(removeBtn, True, True, 1)
+
+
+        return packetTab
 
 window = MainWindow()
 window.connect("destroy", Gtk.main_quit)
