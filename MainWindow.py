@@ -19,6 +19,7 @@ class MainWindow(Gtk.Window):
         self.set_border_width(10)
         self.set_default_size(1100,200)
 
+
         # initialize header bar
         header = self.header()
 
@@ -230,6 +231,7 @@ class MainWindow(Gtk.Window):
         grid.attach_next_to(buttonBox, descriptionEntry, Gtk.PositionType.BOTTOM, 1, 1)
 
         return tagAreaTab
+
 
 window = MainWindow()
 window.connect("destroy", Gtk.main_quit)
