@@ -9,6 +9,7 @@ Created on Mon Oct 15 19:19:42 2018
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
+import MessageTypeArea
 
 def pdmlDesign():
     
@@ -37,11 +38,14 @@ def pdmlDesign():
     menu = pdmlMenu()
     pdmlListBox.add(menu)
     
-
     # filter area
     filterTab = filterArea()
     pdmlListBox.add(filterTab)
 
+    # Message Type Area 
+    messTypeArea=MessageTypeArea.Tabs()
+    pdmlListBox.add(messTypeArea)
+    
     # packet area
     #packetTab = self.packetArea()
 
