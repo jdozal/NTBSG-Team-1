@@ -1,7 +1,7 @@
 import gi
 import PDMLview
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk
 
 class MainWindow(Gtk.Window):
 
@@ -31,9 +31,6 @@ class MainWindow(Gtk.Window):
         hb = Gtk.HeaderBar()
         hb.props.title = "Network Traffic Based Software Generation"
         self.set_titlebar(hb)
-
-        # title = Gtk.Label()
-        # title.set_markup("Network Traffic Based Software Generation")
 
         button = Gtk.Button(label="x")
         button.set_relief(Gtk.ReliefStyle.NONE)
