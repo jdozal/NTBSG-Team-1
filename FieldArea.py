@@ -10,13 +10,21 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
+fieldList=[(False,'icmp.type','Type 8',1,34,8,'08',2),
+           (False,'icmp.type','Type 8',1,34,8,'08',2)]
+titles=['Fieldname','Showname', 'Size', 'Position', 'Show','Value','Entropy']
+fieldListStore = Gtk.ListStore(bool,str, str, int , int, int, str, int)
+
+def on_cell_toggled(widget, path):
+        fieldListStore[path][0] = not fieldListStore[path][0]
+        
 def Tabs():
-    # Box for tabs section
-    tabs = Gtk.Box()
+    fieldAreaBox = Gtk.Box()
     
-    # List box for tabs section
-    tabsList = Gtk.ListBox()
-    tabs.add(tabsList)
+    # List box for area
+    fieldBox = Gtk.ListBox()
+    
+    fieldAreaBox.add(fieldBox)
     
     # Box for title 
     titleBox = Gtk.Box() 
@@ -26,39 +34,38 @@ def Tabs():
     titleBox.set_child_packing(labelTitle, True, True, 100,0)
     titleBox.add(labelTitle)
     
-    tabsList.add(titleBox)
+    fieldBox.add(titleBox)
 
-    notebook = Gtk.Notebook()
-
-    #New/Modify Page
-    newPage = Gtk.Box()
-    newPage.set_border_width(10)
-    newPage.add(Gtk.Label("content Main"))
-    notebook.append_page(newPage, Gtk.Label("New/Modify"))
-
-    #Dependency Page
-    dependencyPage = Gtk.Box()
-    dependencyPage.set_border_width(10)
-    dependencyPage.add(Gtk.Label("content 2"))
-    notebook.append_page(dependencyPage, Gtk.Label("Dependency"))
-
-    #Template Page
-    templatePage = Gtk.Box()
-    templatePage.set_border_width(10)
-    templatePage.add(Gtk.Label("content Main"))
-    notebook.append_page(templatePage, Gtk.Label("Template"))
-
-    #Equivalency Page
-    equivalencyPage = Gtk.Box()
-    equivalencyPage.set_border_width(10)
-    equivalencyPage.add(Gtk.Label("content Main"))
-    notebook.append_page(equivalencyPage, Gtk.Label("Equivalency"))
-
-    #Generation Page
-    generationPage = Gtk.Box()
-    generationPage.set_border_width(10)
-    generationPage.add(Gtk.Label("content Main"))
-    notebook.append_page(generationPage, Gtk.Label("Generation"))
+    # Setting up the grid in which the list will be contained
+    grid = Gtk.Grid()
+    #grid.set_column_homogeneous(True)
+    #grid.set_row_homogeneous(True)
+    fieldBox.add(grid)
     
-    tabsList.add(notebook)
-    return tabs
+    # Creating the ListStore model
+    for field_ref in fieldList:
+        fieldListStore.append(list(field_ref))
+
+    # Creating the treeview
+    treeview = Gtk.TreeView(fieldListStore)
+    
+    # adding checkbox
+    renderer_toggle = Gtk.CellRendererToggle()
+    renderer_toggle.connect("toggled", on_cell_toggled)
+    
+    column_toggle = Gtk.TreeViewColumn(" ", renderer_toggle, active=0)
+    treeview.append_column(column_toggle)
+    
+    # adding other columns 
+    for i, column_title in enumerate(titles):
+        renderer = Gtk.CellRendererText()
+        column = Gtk.TreeViewColumn(column_title, renderer, text=i+1)
+        treeview.append_column(column)
+    
+    scrollable_treelist = Gtk.ScrolledWindow()
+    scrollable_treelist.set_vexpand(True)
+    scrollable_treelist.add(treeview)
+
+    grid.attach(scrollable_treelist, 0, 0, 2, 2)
+        
+    return fieldAreaBox
