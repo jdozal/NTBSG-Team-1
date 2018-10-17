@@ -115,6 +115,5 @@ def newModify():
 
     mainBox.pack_start(instructions, True, True, 0)
     mainBox.pack_start(messageTypeGrid,True,True,0)
-    #mainBox.pack_start(buttonBox, True, True, 0)
 
     return mainBox
