@@ -22,9 +22,8 @@ code = [["Frame 718: frame, eth, ip, tcp",
 
 def Tabs():
     packetTab = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-
     grid = Gtk.Grid()
-    packetTab.add(grid)
+    packetTab.pack_start(grid, True, True, 5)
 
     # name of area
     nameLabel = Gtk.Label()
@@ -57,14 +56,14 @@ def Tabs():
     column_in_size = Gtk.TreeViewColumn("Size", renderer_in_size, text=1)
     view.append_column(column_in_size)
 
-
     # initializing box where packet will be
-    panelGrid = Gtk.Grid()
-    grid.attach_next_to(panelGrid, nameLabel, Gtk.PositionType.BOTTOM, 1, 1)
+    scroll_window = Gtk.ScrolledWindow()
+    grid.attach_next_to(scroll_window, nameLabel, Gtk.PositionType.BOTTOM, 1, 1)
 
     # left hand side where packet code is
-    codeBox = Gtk.Box()
-    panelGrid.add(codeBox)
+    # codeBox = Gtk.Box()
+    # grid.add(scroll_window)
+
     #
     # # Convert data to liststore (to display on treeviews)
     # code_list = Gtk.ListStore(str, int, bool)
@@ -93,12 +92,11 @@ def Tabs():
     # # add treeview
     # # code_tree.get_selection().connect("changed", self.on_changed)
     # # codeBox.add(code_tree)
-    codeBox.add(view)
-
+    scroll_window.add(view)
 
     # right hand side buttons
     btnBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-    panelGrid.attach_next_to(btnBox, codeBox, Gtk.PositionType.RIGHT, 1, 1)
+    grid.attach_next_to(btnBox, scroll_window, Gtk.PositionType.RIGHT, 1, 1)
 
     removeBtn = Gtk.Button(label="Remove")
     clearBtn = Gtk.Button(label="Clear")
