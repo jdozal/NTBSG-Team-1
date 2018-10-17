@@ -105,13 +105,24 @@ def newModify():
     messageTypeGrid.set_column_spacing(10)
     messageTypeGrid.set_row_spacing(5)
 
+    #checkboxes
+    hbox = Gtk.Box(orientation = Gtk.Orientation.VERTICAL)
+    #hbox.setSpacing(5)
+
+    fbButton = Gtk.CheckButton("Select both field name and value")
+    hbox.pack_start(fbButton, True, True, 0)
+
+    fOnlyButton = Gtk.CheckButton("Select field name only")
+    hbox.pack_start(fOnlyButton, True, True, 0)
+
     messageTypeGrid.add(typeLabel)
     messageTypeGrid.attach_next_to(typeCombo, typeLabel, Gtk.PositionType.RIGHT, 1, 1)
     messageTypeGrid.attach_next_to(nameLabel, typeLabel, Gtk.PositionType.BOTTOM, 1, 1)
     messageTypeGrid.attach_next_to(nameEntry, nameLabel, Gtk.PositionType.RIGHT, 1, 1)
     messageTypeGrid.attach_next_to(fieldVPLabel, nameLabel, Gtk.PositionType.BOTTOM, 1, 1)
     messageTypeGrid.attach_next_to(fieldVPEntry, fieldVPLabel, Gtk.PositionType.RIGHT, 1, 1)
-    messageTypeGrid.attach_next_to(buttonBox, fieldVPEntry, Gtk.PositionType.BOTTOM, 2, 1)
+    messageTypeGrid.attach_next_to(buttonBox, fieldVPEntry, Gtk.PositionType.BOTTOM, 1, 1)
+    messageTypeGrid.attach_next_to(hbox, fieldVPLabel, Gtk.PositionType.BOTTOM, 1, 1)
 
     mainBox.pack_start(instructions, True, True, 0)
     mainBox.pack_start(messageTypeGrid,True,True,0)
