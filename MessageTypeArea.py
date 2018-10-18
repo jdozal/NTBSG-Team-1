@@ -51,7 +51,7 @@ def Tabs():
     #Equivalency Page
     equivalencyPage = Gtk.Box()
     equivalencyPage.set_border_width(10)
-    equivalencyPage.add(equivalency())
+    #equivalencyPage.add(equivalency())
     notebook.append_page(equivalencyPage, Gtk.Label("Equivalency"))
 
     #Generation Page
@@ -250,3 +250,39 @@ def template():
 
 def equivalency():
     equivalencyBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+
+    # labels
+    fieldEquivalencyLabel = Gtk.Label("Field Equivalency")
+    ofLabel1 = Gtk.Label(" of ")
+    ofLabel2 = Gtk.Label(" of ")
+    equals = Gtk.Label(" = ")
+    plusLabel = Gtk.Label(" + ")
+
+    #entries
+    field1Entry1 = Gtk.Entry()
+    field1Entry1.set_placeholder_text("Field Name")
+    field1Entry2 = Gtk.Entry()
+    field1Entry2.set_placeholder_text("Field Name")
+    messageEntry1 = Gtk.Entry()
+    messageEntry1.set_placeholder_text("Message Type Name")
+    messageEntry2 = Gtk.Entry()
+    messageEntry2.set_placeholder_text("Message Type Name")
+
+    # grid
+    equivalencyGrid = Gtk.Grid()
+    equivalencyGrid.set_column_spacing(10)
+    equivalencyGrid.set_row_spacing(5)
+
+    # construct grid
+    equivalencyGrid.add(typeLabel)
+    equivalencyGrid.attach_next_to(typeg, typeLabel, Gtk.PositionType.RIGHT, 1, 1)
+    equivalencyGrid.attach_next_to(cycleBtn, typeCombo, Gtk.PositionType.BOTTOM, 1, 1)
+    equivalencyGrid.attach_next_to(listValuePairsEntry, cycleBtn, Gtk.PositionType.BOTTOM, 1, 1)
+    equivalencyGrid.attach_next_to(listValuePairsLabel, listValuePairsEntry, Gtk.PositionType.LEFT, 1, 1)
+    equivalencyGrid.attach_next_to(buttonBox, listValuePairsEntry, Gtk.PositionType.BOTTOM, 1, 1)
+
+    # add to main template page (box)
+    equivalencyBox.pack_start(equivalencyGrid, True, True, 0)
+
+
+    return equivalencyBox
