@@ -128,6 +128,7 @@ def filterArea():
 
     # text box (entry)
     newFilter = Gtk.Entry()
+    newFilter.set_placeholder_text("Filter Expression")
 
     # drop down
     # TODO HAVE TO ESTABLISH THE filters saved OF THE DROPDOWN

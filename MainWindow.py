@@ -135,43 +135,41 @@ class MainWindow(Gtk.Window):
         grid = Gtk.Grid()
         sessionsTab.add(grid)
         grid.set_row_spacing(5)
-        #
-        # Stack
-        # stack = Gtk.Stack()
-        # stack.set_transition_type(Gtk.StackTransitionType.SLIDE_DOWN)
-        # stack.set_transition_duration(1000)
-        #
-        # state1 = Gtk.Button(label="State 1")
-        # stack.add_titled(state1, "s1", "State1")
-        #
-        # state2 = Gtk.Button(label="State 2")
-        # stack.add_titled(state2, "s2", "State2")
-        #
-        # # switcher
-        # switcher = Gtk.StackSwitcher()
-        # switcher.set_stack(stack)
-        #
-        workspaceLabel = Gtk.Label("Workspace X")
+
+        # workspaceLabel = Gtk.Button(label="Workspace X")
+        # workspaceLabel.set_sensitive(False)
         # grid.add(workspaceLabel)
-        # # state1Btn = Gtk.Button(label="State 1")
-        # # state2Btn = Gtk.Button(label="State 2")
-        #
-        # grid.attach_next_to(switcher, workspaceLabel, Gtk.PositionType.BOTTOM, 1, 1)
-        # grid.attach_next_to(stack, switcher, Gtk.PositionType.BOTTOM, 1, 1)
 
+        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        hbox.store = Gtk.TreeStore(str, bool)
 
-        sessionA = Gtk.Label("Session A")
-        state1 = Gtk.Label("State 1")
-        state2 = Gtk.Label("State 2")
-        sessionB = Gtk.Label("Session B")
-        sessionC = Gtk.Label("Session C")
+        for i in range(len(workspace)):
+            piter = hbox.store.append(None, [workspace[i][0], False])
 
-        grid.add(workspaceLabel)
-        grid.attach_next_to(sessionA, workspaceLabel, Gtk.PositionType.BOTTOM, 1, 1)
-        grid.attach_next_to(state1, sessionA, Gtk.PositionType.BOTTOM, 1, 1)
-        grid.attach_next_to(state2, state1, Gtk.PositionType.BOTTOM, 1, 1)
-        grid.attach_next_to(sessionB, state2, Gtk.PositionType.BOTTOM, 1, 1)
-        grid.attach_next_to(sessionC, sessionB, Gtk.PositionType.BOTTOM, 1, 1)
+            j = 1
+            while j < len(workspace[i]):
+                hbox.store.append(piter, workspace[i][j])
+                j += 1
+
+        view = Gtk.TreeView()
+        view.set_model(hbox.store)
+
+        renderer = Gtk.CellRendererToggle()
+        column_in_size = Gtk.TreeViewColumn("", renderer, active=1)
+        view.append_column(column_in_size)
+
+        renderer_frame = Gtk.CellRendererText()
+        column_frame = Gtk.TreeViewColumn("Workspace X", renderer_frame, text=0)
+        view.append_column(column_frame)
+
+        # initializing box where packet will be
+        scroll_window = Gtk.ScrolledWindow()
+        grid.add(scroll_window)
+
+        scroll_window.add(view)
+
+        scroll_window.set_min_content_width(200)
+        scroll_window.set_min_content_height(200)
 
         return sessionsTab
 
@@ -211,17 +209,23 @@ class MainWindow(Gtk.Window):
         buttonBox.pack_end(cancelBtn, True, True, 0)
         buttonBox.add(updateBtn)
 
+        leftBox = Gtk.VBox()
+        leftBox.add(savedLabel)
+        leftBox.add(nameLabel)
+        leftBox.add(fieldLabel)
+        leftBox.add(descriptionLabel)
+
+        rightBox = Gtk.VBox()
+        rightBox.pack_start(savedCombo, True, True, 5)
+        rightBox.pack_start(nameEntry, True, True, 0)
+        rightBox.pack_start(fieldEntry, True, True, 0)
+        rightBox.pack_start(descriptionEntry, True, True, 0)
+        rightBox.pack_start(buttonBox, True, True, 0)
+
         #adding to grid
         grid.add(tagLabel)
-        grid.attach_next_to(savedLabel, tagLabel, Gtk.PositionType.BOTTOM, 1, 1)
-        grid.attach_next_to(savedCombo, savedLabel, Gtk.PositionType.RIGHT, 2, 1)
-        grid.attach_next_to(nameLabel, savedLabel, Gtk.PositionType.BOTTOM, 1, 1)
-        grid.attach_next_to(nameEntry, nameLabel, Gtk.PositionType.RIGHT, 2, 1)
-        grid.attach_next_to(fieldLabel, nameLabel, Gtk.PositionType.BOTTOM, 1, 1)
-        grid.attach_next_to(fieldEntry, fieldLabel, Gtk.PositionType.RIGHT, 2, 1)
-        grid.attach_next_to(descriptionLabel, fieldLabel, Gtk.PositionType.BOTTOM, 1, 1)
-        grid.attach_next_to(descriptionEntry, descriptionLabel, Gtk.PositionType.RIGHT, 2, 1)
-        grid.attach_next_to(buttonBox, descriptionEntry, Gtk.PositionType.BOTTOM, 1, 1)
+        grid.attach_next_to(leftBox, tagLabel, Gtk.PositionType.BOTTOM, 1, 1)
+        grid.attach_next_to(rightBox, leftBox, Gtk.PositionType.RIGHT, 1, 1)
 
         return tagAreaTab
 
@@ -234,12 +238,19 @@ class MainWindow(Gtk.Window):
         from OpenPCAP import OpenPCAP
         win = OpenPCAP()
         win.show_all()
-        
+
     def on_open_session_clicked(self, widget):
         from OpenSession import OpenSession
         win = OpenSession()
         win.show_all()
-        
+
+workspace = [["Session A",
+        ["State 1", False],
+        ["State 2", False]],
+        ["Session B", ["stage", False]],
+        ["Session C", ["stage", False]]
+        ]
+
 window = MainWindow()
 window.connect("destroy", Gtk.main_quit)
 window.show_all()

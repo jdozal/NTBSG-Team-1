@@ -59,39 +59,6 @@ def Tabs():
     # initializing box where packet will be
     scroll_window = Gtk.ScrolledWindow()
     grid.attach_next_to(scroll_window, nameLabel, Gtk.PositionType.BOTTOM, 1, 1)
-
-    # left hand side where packet code is
-    # codeBox = Gtk.Box()
-    # grid.add(scroll_window)
-
-    #
-    # # Convert data to liststore (to display on treeviews)
-    # code_list = Gtk.ListStore(str, int, bool)
-    # for item in range(len(code)):
-    #     code_list.append(code[item])
-    #
-    # # TreeView
-    # code_tree = Gtk.TreeView(model=code_list)
-    # cell1=Gtk.CellRendererToggle()
-    # col1=Gtk.TreeViewColumn("", cell1, active=1)
-    # code_tree.append_column(col1)
-    #
-    # for i, col_title in enumerate(["Frame", "Size"]):
-    #     # how to draw the data
-    #     renderer = Gtk.CellRendererText()
-    #
-    #     if i==0:
-    #         renderer.props.weight_set = True
-    #
-    #     # create columns
-    #     column = Gtk.TreeViewColumn(col_title, renderer, text=i)
-    #
-    #     # add columns
-    #     code_tree.append_column(column)
-    #
-    # # add treeview
-    # # code_tree.get_selection().connect("changed", self.on_changed)
-    # # codeBox.add(code_tree)
     scroll_window.add(view)
 
     scroll_window.set_min_content_width(1000)
@@ -105,6 +72,5 @@ def Tabs():
     clearBtn = Gtk.Button(label="Clear")
     btnBox.pack_end(clearBtn, True, True, 1)
     btnBox.pack_end(removeBtn, True, True, 1)
-    
 
     return packetTab
