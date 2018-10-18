@@ -34,8 +34,6 @@ def Tabs():
     newPage = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
     newPage.set_border_width(10)
     newPage.add(newModify())
-    #newPage.pack_start(newModify(), True, True, 0)
-    #newPage.add(Gtk.Label("content Main"))
     notebook.append_page(newPage, Gtk.Label("New/Modify"))
 
     #Dependency Page
@@ -47,13 +45,13 @@ def Tabs():
     #Template Page
     templatePage = Gtk.Box()
     templatePage.set_border_width(10)
-    templatePage.add(Gtk.Label("content Main"))
+    templatePage.add(template())
     notebook.append_page(templatePage, Gtk.Label("Template"))
 
     #Equivalency Page
     equivalencyPage = Gtk.Box()
     equivalencyPage.set_border_width(10)
-    equivalencyPage.add(Gtk.Label("content Main"))
+    equivalencyPage.add(equivalency())
     notebook.append_page(equivalencyPage, Gtk.Label("Equivalency"))
 
     #Generation Page
@@ -149,6 +147,7 @@ def dependency():
     # text boxes
     #first box
     nameEntry = Gtk.Entry()
+    nameEntry.set_placeholder_text("Field Name")
     nameEntry2 = Gtk.Entry()
     #second box
     nameEntry3 = Gtk.Entry()
@@ -182,7 +181,6 @@ def dependency():
     thirdbox.pack_start(fieldNamesEntry, True, True, 0)
 
     #save and clear buttons at the bottom of the form
-    # bottom buttons
     buttonBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
     buttonBox.set_spacing(5)
     saveBtn = Gtk.Button(label="Save")
@@ -200,7 +198,55 @@ def dependency():
     dependencyGrid.attach_next_to(checksumLabel, packetSizeLabel, Gtk.PositionType.BOTTOM, 1, 1)
     dependencyGrid.attach_next_to(thirdbox, checksumLabel, Gtk.PositionType.RIGHT, 1, 1)
     dependencyGrid.attach_next_to(buttonBox, thirdbox, Gtk.PositionType.BOTTOM, 1, 1)
+
     #add to dependency page (box)
     dependencyBox.pack_start(dependencyGrid, True, True, 0)
 
     return dependencyBox
+
+def template():
+    templateBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+
+    #labels
+    typeLabel = Gtk.Label("Existing Message Type")
+    listValuePairsLabel = Gtk.Label("Message Type Template \nFields Value Pair(s)")
+
+    # drop down menu
+    # TODO HAVE TO ESTABLISH THE INSIDE OF THE DROPDOWN
+    typeCombo = Gtk.ComboBox()
+
+    #button
+    cycleBtn = Gtk.Button(label="Cycle Through Packets")
+
+    #entry
+    listValuePairsEntry = Gtk.Entry()
+    listValuePairsEntry.set_placeholder_text("List of Field Value Pair(s)")
+
+    #save and clear buttons at the bottom of the form
+    buttonBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+    buttonBox.set_spacing(5)
+    saveBtn = Gtk.Button(label="Save")
+    clearBtn = Gtk.Button(label="Clear")
+    buttonBox.pack_start(saveBtn, True, True, 0)
+    buttonBox.pack_start(clearBtn, True, True, 0)
+
+    #grid
+    templateGrid = Gtk.Grid()
+    templateGrid.set_column_spacing(10)
+    templateGrid.set_row_spacing(5)
+
+    #construct grid
+    templateGrid.add(typeLabel)
+    templateGrid.attach_next_to(typeCombo, typeLabel, Gtk.PositionType.RIGHT, 1, 1)
+    templateGrid.attach_next_to(cycleBtn, typeCombo, Gtk.PositionType.BOTTOM, 1, 1)
+    templateGrid.attach_next_to(listValuePairsEntry, cycleBtn, Gtk.PositionType.BOTTOM, 1, 1)
+    templateGrid.attach_next_to(listValuePairsLabel, listValuePairsEntry, Gtk.PositionType.LEFT, 1, 1)
+    templateGrid.attach_next_to(buttonBox, listValuePairsEntry, Gtk.PositionType.BOTTOM, 1, 1)
+
+    #add to main template page (box)
+    templateBox.pack_start(templateGrid, True, True, 0)
+
+    return templateBox
+
+def equivalency():
+    equivalencyBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
