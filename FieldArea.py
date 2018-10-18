@@ -10,10 +10,13 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
-fieldList=[(False,'icmp.type','Type 8',1,34,8,'08',2),
-           (False,'icmp.type','Type 8',1,34,8,'08',2)]
+fieldList=[(False,'icmp.type','Type 8 (Echo(ping) request)','1',34,'8','08',2),
+           (False,'icmp.code','Code 0','1',35,'0x00','00',2),
+           (False,'icmp.checksum','Checksum: 0x6861 (correct)','0x00',36,'0x6861','6861',0),
+           (False,'icmp.ident','Identifier: 0x809e','2',38,'0x809e','809e',2),
+           (False,'icmp.seq','Sequence number: 0x0f00','2',40,'0x0f00','0f00',2)]
 titles=['Fieldname','Showname', 'Size', 'Position', 'Show','Value','Entropy']
-fieldListStore = Gtk.ListStore(bool,str, str, int , int, int, str, int)
+fieldListStore = Gtk.ListStore(bool,str, str, str , int, str, str, int)
 
 def on_cell_toggled(widget, path):
         fieldListStore[path][0] = not fieldListStore[path][0]
