@@ -41,7 +41,7 @@ def Tabs():
     #Dependency Page
     dependencyPage = Gtk.Box()
     dependencyPage.set_border_width(10)
-    dependencyPage.add(Gtk.Label("content 2"))
+    dependencyPage.add(dependency())
     notebook.append_page(dependencyPage, Gtk.Label("Dependency"))
 
     #Template Page
@@ -109,8 +109,8 @@ def newModify():
     hbox = Gtk.Box(orientation = Gtk.Orientation.VERTICAL)
     #hbox.setSpacing(5)
 
-    fbButton = Gtk.CheckButton("Select both field name and value")
-    hbox.pack_start(fbButton, True, True, 0)
+    fieldValueBtn = Gtk.CheckButton("Select both field name and value")
+    hbox.pack_start(fieldValueBtn, True, True, 0)
 
     fOnlyButton = Gtk.CheckButton("Select field name only")
     hbox.pack_start(fOnlyButton, True, True, 0)
@@ -125,6 +125,82 @@ def newModify():
     messageTypeGrid.attach_next_to(hbox, fieldVPLabel, Gtk.PositionType.BOTTOM, 1, 1)
 
     mainBox.pack_start(instructions, True, True, 0)
-    mainBox.pack_start(messageTypeGrid,True,True,0)
+    mainBox.pack_start(messageTypeGrid, True, True,0)
 
     return mainBox
+
+def dependency():
+    dependencyBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+
+    #labels
+    typeLabel = Gtk.Label("Existing Message Type")
+    fieldSizeLabel = Gtk.Label("Size of field")
+    packetSizeLabel = Gtk.Label("Size of packet")
+    checksumLabel = Gtk.Label("Checksum")
+    #for some reason I can't use the same label on 3 differenf boxes
+    dependsLabel = Gtk.Label(" depends on ")
+    dependsLabel2 = Gtk.Label(" depends on ")
+    dependsLabel3 = Gtk.Label(" depends on ")
+
+    # drop down menu
+    # TODO HAVE TO ESTABLISH THE INSIDE OF THE DROPDOWN
+    typeCombo = Gtk.ComboBox()
+
+    # text boxes
+    #first box
+    nameEntry = Gtk.Entry()
+    nameEntry2 = Gtk.Entry()
+    #second box
+    nameEntry3 = Gtk.Entry()
+    packetEntry = Gtk.Entry()
+    #third box
+    packetEntry2 = Gtk.Entry()
+    fieldNamesEntry = Gtk.Entry()
+
+    #button
+    cycleBtn = Gtk.Button(label="Cycle Through Packets")
+
+    #grid
+    dependencyGrid = Gtk.Grid()
+    dependencyGrid.set_column_spacing(10)
+    dependencyGrid.set_row_spacing(5)
+
+    #containers "depends on"
+    firstbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+    firstbox.pack_start(nameEntry, True, True, 0)
+    firstbox.pack_start(dependsLabel, True, True, 0)
+    firstbox.pack_start(nameEntry2, True, True, 0)
+
+    secondbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+    secondbox.pack_start(nameEntry3, True, True, 0)
+    secondbox.pack_start(dependsLabel2, True, True, 0)
+    secondbox.pack_start(packetEntry, True, True, 0)
+
+    thirdbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+    thirdbox.pack_start(packetEntry2, True, True, 0)
+    thirdbox.pack_start(dependsLabel3, True, True, 0)
+    thirdbox.pack_start(fieldNamesEntry, True, True, 0)
+
+    #save and clear buttons at the bottom of the form
+    # bottom buttons
+    buttonBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+    buttonBox.set_spacing(5)
+    saveBtn = Gtk.Button(label="Save")
+    clearBtn = Gtk.Button(label="Clear")
+    buttonBox.pack_start(saveBtn, True, True, 0)
+    buttonBox.pack_start(clearBtn, True, True, 0)
+
+    dependencyGrid.add(typeLabel)
+    dependencyGrid.attach_next_to(typeCombo, typeLabel, Gtk.PositionType.RIGHT, 1, 1)
+    dependencyGrid.attach_next_to(cycleBtn, typeCombo, Gtk.PositionType.BOTTOM, 1, 1)
+    dependencyGrid.attach_next_to(firstbox, cycleBtn, Gtk.PositionType.BOTTOM, 1, 1)
+    dependencyGrid.attach_next_to(fieldSizeLabel, firstbox, Gtk.PositionType.LEFT, 1, 1)
+    dependencyGrid.attach_next_to(secondbox, firstbox, Gtk.PositionType.BOTTOM, 1, 1)
+    dependencyGrid.attach_next_to(packetSizeLabel, secondbox, Gtk.PositionType.LEFT, 1, 1)
+    dependencyGrid.attach_next_to(checksumLabel, packetSizeLabel, Gtk.PositionType.BOTTOM, 1, 1)
+    dependencyGrid.attach_next_to(thirdbox, checksumLabel, Gtk.PositionType.RIGHT, 1, 1)
+    dependencyGrid.attach_next_to(buttonBox, thirdbox, Gtk.PositionType.BOTTOM, 1, 1)
+    #add to dependency page (box)
+    dependencyBox.pack_start(dependencyGrid, True, True, 0)
+
+    return dependencyBox
