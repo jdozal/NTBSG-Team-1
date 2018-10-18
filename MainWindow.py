@@ -54,6 +54,9 @@ class MainWindow(Gtk.Window):
         switchBtn = Gtk.Button(label="Switch Workspace")
         pcapBtn = Gtk.Button(label="Open PCAP")
         terminalBtn = Gtk.Button(label="Terminal")
+        
+        # Connecting buttons
+        openBtn.connect("clicked", self.on_new_session_clicked)
 
         buttonBox.add(createBtn)
         buttonBox.add(openBtn)
@@ -220,7 +223,11 @@ class MainWindow(Gtk.Window):
 
         return tagAreaTab
 
-
+    def on_new_session_clicked(self, widget):
+        from NewSession import NewSession
+        win = NewSession()
+        win.show_all()
+        
 window = MainWindow()
 window.connect("destroy", Gtk.main_quit)
 window.show_all()
