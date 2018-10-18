@@ -94,6 +94,9 @@ def Tabs():
     # # codeBox.add(code_tree)
     scroll_window.add(view)
 
+    scroll_window.set_min_content_width(1000)
+    scroll_window.set_min_content_height(200)
+
     # right hand side buttons
     btnBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
     grid.attach_next_to(btnBox, scroll_window, Gtk.PositionType.RIGHT, 1, 1)
@@ -102,5 +105,6 @@ def Tabs():
     clearBtn = Gtk.Button(label="Clear")
     btnBox.pack_end(clearBtn, True, True, 1)
     btnBox.pack_end(removeBtn, True, True, 1)
+    
 
     return packetTab

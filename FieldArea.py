@@ -20,6 +20,7 @@ def on_cell_toggled(widget, path):
         
 def Tabs():
     fieldAreaBox = Gtk.Box()
+    fieldAreaBox.set_homogeneous(True)
     
     # List box for area
     fieldBox = Gtk.ListBox()
@@ -40,6 +41,7 @@ def Tabs():
     grid = Gtk.Grid()
     #grid.set_column_homogeneous(True)
     #grid.set_row_homogeneous(True)
+    grid.set_hexpand(True);
     fieldBox.add(grid)
     
     # Creating the ListStore model
@@ -63,9 +65,21 @@ def Tabs():
         treeview.append_column(column)
     
     scrollable_treelist = Gtk.ScrolledWindow()
-    scrollable_treelist.set_vexpand(True)
+    scrollable_treelist.set_min_content_width(550)
+    scrollable_treelist.set_min_content_height(300)
+    
+    #scrollable_treelist.set_vexpand(True)
     scrollable_treelist.add(treeview)
 
     grid.attach(scrollable_treelist, 0, 0, 2, 2)
+    #print(fieldBox.size_request().width)
+    
+    # Select all checkbox
+    selectAll = Gtk.CheckButton("Select all fields")
+    
+    editableFields = Gtk.Label("Field Name, Showname, Value, and Length are editable fields")
+
+    grid.attach_next_to(selectAll, scrollable_treelist, Gtk.PositionType.BOTTOM, 1, 1)
+    grid.attach_next_to(editableFields, selectAll, Gtk.PositionType.RIGHT, 1, 1)
         
     return fieldAreaBox
