@@ -57,6 +57,7 @@ class MainWindow(Gtk.Window):
         
         # Connecting buttons
         openBtn.connect("clicked", self.on_new_session_clicked)
+        pcapBtn.connect("clicked", self.on_open_pcap_clicked)
 
         buttonBox.add(createBtn)
         buttonBox.add(openBtn)
@@ -226,6 +227,11 @@ class MainWindow(Gtk.Window):
     def on_new_session_clicked(self, widget):
         from NewSession import NewSession
         win = NewSession()
+        win.show_all()
+
+    def on_open_pcap_clicked(self, widget):
+        from OpenPCAP import OpenPCAP
+        win = OpenPCAP()
         win.show_all()
         
 window = MainWindow()
