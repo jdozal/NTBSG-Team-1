@@ -51,13 +51,13 @@ def Tabs():
     #Equivalency Page
     equivalencyPage = Gtk.Box()
     equivalencyPage.set_border_width(10)
-    #equivalencyPage.add(equivalency())
+    equivalencyPage.add(equivalency())
     notebook.append_page(equivalencyPage, Gtk.Label("Equivalency"))
 
     #Generation Page
     generationPage = Gtk.Box()
     generationPage.set_border_width(10)
-    generationPage.add(Gtk.Label("content Main"))
+    generationPage.add(generation())
     notebook.append_page(generationPage, Gtk.Label("Generation"))
     
     tabsList.add(notebook)
@@ -268,21 +268,77 @@ def equivalency():
     messageEntry2 = Gtk.Entry()
     messageEntry2.set_placeholder_text("Message Type Name")
 
+    #save and clear buttons at the bottom of the form
+    buttonBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+    buttonBox.set_spacing(5)
+    saveBtn = Gtk.Button(label="Save")
+    clearBtn = Gtk.Button(label="Clear")
+    buttonBox.pack_start(saveBtn, True, True, 0)
+    buttonBox.pack_start(clearBtn, True, True, 0)
+
     # grid
     equivalencyGrid = Gtk.Grid()
     equivalencyGrid.set_column_spacing(10)
     equivalencyGrid.set_row_spacing(5)
 
     # construct grid
-    equivalencyGrid.add(typeLabel)
-    equivalencyGrid.attach_next_to(typeg, typeLabel, Gtk.PositionType.RIGHT, 1, 1)
-    equivalencyGrid.attach_next_to(cycleBtn, typeCombo, Gtk.PositionType.BOTTOM, 1, 1)
-    equivalencyGrid.attach_next_to(listValuePairsEntry, cycleBtn, Gtk.PositionType.BOTTOM, 1, 1)
-    equivalencyGrid.attach_next_to(listValuePairsLabel, listValuePairsEntry, Gtk.PositionType.LEFT, 1, 1)
-    equivalencyGrid.attach_next_to(buttonBox, listValuePairsEntry, Gtk.PositionType.BOTTOM, 1, 1)
+    equivalencyGrid.add(fieldEquivalencyLabel)
+    equivalencyGrid.attach_next_to(field1Entry1, fieldEquivalencyLabel, Gtk.PositionType.RIGHT, 1, 1)
+    equivalencyGrid.attach_next_to(ofLabel1, field1Entry1, Gtk.PositionType.RIGHT, 1, 1)
+    equivalencyGrid.attach_next_to(messageEntry1, ofLabel1, Gtk.PositionType.RIGHT, 1, 1)
+    equivalencyGrid.attach_next_to(equals, messageEntry1, Gtk.PositionType.RIGHT, 1, 1)
+    equivalencyGrid.attach_next_to(field1Entry2, field1Entry1, Gtk.PositionType.BOTTOM, 1, 1)
+    equivalencyGrid.attach_next_to(ofLabel2, ofLabel1, Gtk.PositionType.BOTTOM, 1, 1)
+    equivalencyGrid.attach_next_to(messageEntry2, messageEntry1, Gtk.PositionType.BOTTOM, 1, 1)
+    equivalencyGrid.attach_next_to(plusLabel, equals, Gtk.PositionType.BOTTOM, 1, 1)
+    equivalencyGrid.attach_next_to(buttonBox, messageEntry2, Gtk.PositionType.BOTTOM, 1, 1)
 
     # add to main template page (box)
     equivalencyBox.pack_start(equivalencyGrid, True, True, 0)
 
-
     return equivalencyBox
+
+def generation():
+    generationBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+
+    # labels
+    messageTypeLabel = Gtk.Label(" Existing Message Type ")
+    outputFormatLabel = Gtk.Label(" Message Template Output Format ")
+    messageTemplateLabel = Gtk.Label(" Message Template Name ")
+
+    #dropdowns
+    # TODO HAVE TO ESTABLISH THE INSIDE OF THE DROPDOWN
+    messageTypeCombo = Gtk.ComboBox()
+    outputFormatCombo = Gtk.ComboBox()
+
+    #entry
+    messageTemplateEntry = Gtk.Entry()
+    messageTemplateEntry.set_placeholder_text(" Message Template Name ")
+
+    #save and clear buttons at the bottom of the form
+    buttonBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+    buttonBox.set_spacing(5)
+    generateBtn = Gtk.Button(label="Generate")
+    clearBtn = Gtk.Button(label="Clear")
+    buttonBox.pack_start(generateBtn, True, True, 0)
+    buttonBox.pack_start(clearBtn, True, True, 0)
+
+    # grid
+    generationGrid = Gtk.Grid()
+    generationGrid.set_column_spacing(10)
+    generationGrid.set_row_spacing(5)
+
+    # construct grid
+    generationGrid.add(messageTypeLabel)
+    generationGrid.attach_next_to(messageTypeCombo, messageTypeLabel, Gtk.PositionType.RIGHT, 1, 1)
+    generationGrid.attach_next_to(outputFormatCombo, messageTypeCombo, Gtk.PositionType.BOTTOM, 1, 1)
+    generationGrid.attach_next_to(outputFormatLabel, outputFormatCombo, Gtk.PositionType.LEFT, 1, 1)
+    generationGrid.attach_next_to(messageTemplateEntry, outputFormatCombo, Gtk.PositionType.BOTTOM, 1, 1)
+    generationGrid.attach_next_to(messageTemplateLabel, messageTemplateEntry, Gtk.PositionType.LEFT, 1, 1)
+    generationGrid.attach_next_to(buttonBox, messageTemplateEntry, Gtk.PositionType.BOTTOM, 1, 1)
+
+    generationBox.pack_start(generationGrid, True, True, 0)
+
+    return generationBox
+
+
