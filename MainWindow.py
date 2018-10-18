@@ -56,8 +56,9 @@ class MainWindow(Gtk.Window):
         terminalBtn = Gtk.Button(label="Terminal")
         
         # Connecting buttons
-        openBtn.connect("clicked", self.on_new_session_clicked)
+        createBtn.connect("clicked", self.on_new_session_clicked)
         pcapBtn.connect("clicked", self.on_open_pcap_clicked)
+        openBtn.connect("clicked", self.on_open_session_clicked)
 
         buttonBox.add(createBtn)
         buttonBox.add(openBtn)
@@ -232,6 +233,11 @@ class MainWindow(Gtk.Window):
     def on_open_pcap_clicked(self, widget):
         from OpenPCAP import OpenPCAP
         win = OpenPCAP()
+        win.show_all()
+        
+    def on_open_session_clicked(self, widget):
+        from OpenSession import OpenSession
+        win = OpenSession()
         win.show_all()
         
 window = MainWindow()
