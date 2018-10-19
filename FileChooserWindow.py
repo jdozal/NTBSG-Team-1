@@ -16,16 +16,20 @@ def on_file_clicked(self, widget):
         (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
          Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
 
-    self.add_filters(dialog)
+    add_filters(self,dialog)
 
     response = dialog.run()
+    filePath = ''
     if response == Gtk.ResponseType.OK:
         print("Open clicked")
         print("File selected: " + dialog.get_filename())
+        filePath = dialog.get_filename()
     elif response == Gtk.ResponseType.CANCEL:
         print("Cancel clicked")
 
     dialog.destroy()
+    return filePath
+    
 
 def on_folder_clicked(self, widget):
     dialog = Gtk.FileChooserDialog("Please choose a folder", self,

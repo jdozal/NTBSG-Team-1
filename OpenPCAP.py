@@ -1,9 +1,11 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
-
+import FileChooserWindow
 
 class OpenPCAP(Gtk.Window):
+    
+    response = ''
 
     def __init__(self):
         Gtk.Window.__init__(self, title="PCAP")
@@ -44,43 +46,19 @@ class OpenPCAP(Gtk.Window):
         grid.attach(buttonConvert, 15, 3, 1, 1)
         grid.attach(buttonCancel, 18, 3, 1, 1)
 
-        buttonBrowse1.connect("clicked", self.on_open_clicked)
-        buttonBrowse2.connect("clicked", self.on_open_clicked)
+        buttonBrowse1.connect("clicked", self.on_file_clicked)
+        buttonBrowse2.connect("clicked", self.on_file_clicked)
         buttonCancel.connect("clicked", self.on_destroy)
 
 
     def on_destroy(self, widget):
         self.destroy()
 
-    def on_open_clicked(self, widget):
-        dialog = Gtk.FileChooserDialog("Select file", self,
-                                       Gtk.FileChooserAction.OPEN,
-                                       (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-                                        Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
-        dialog.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
-        self.add_filters(dialog)
-        response = dialog.run()
-        if response == Gtk.ResponseType.OK:
-            print("File selected: " + dialog.get_filename())
-            dialog.destroy()
-
-        dialog.destroy()
-
-    # Add filters to the open file directory to show all files
-    def add_filters(self, dialog):
-        filter_text = Gtk.FileFilter()
-        filter_text.set_name("Text files")
-        filter_text.add_mime_type("text/plain")
-        dialog.add_filter(filter_text)
-        filter_py = Gtk.FileFilter()
-        filter_py.set_name("Python files")
-        filter_py.add_mime_type("text/x-python")
-        dialog.add_filter(filter_py)
-        filter_any = Gtk.FileFilter()
-        filter_any.set_name("Any files")
-        filter_any.add_pattern("*")
-        dialog.add_filter(filter_any)
-
+    def on_file_clicked(self,widget):
+        self.response = FileChooserWindow.on_file_clicked(self,widget)
+        print("RESPONSE - " + self.response)
+        
+        
 win = OpenPCAP()
 win.connect("destroy", Gtk.main_quit)
 win.show_all()
