@@ -32,8 +32,6 @@ class TagOverlay(Gtk.Window):
         entryTagDescription.set_placeholder_text("Tag Description")
         entryTagDescription.set_max_length(500)
 
-
-
         buttonSave = Gtk.Button("Save")
         buttonCancel = Gtk.Button("Cancel")
         buttonCancel.connect("clicked", self.on_destroy)
