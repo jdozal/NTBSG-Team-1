@@ -34,7 +34,6 @@ class OpenPCAP(Gtk.Window):
         buttonConvert = Gtk.Button("Convert to PDML")
         buttonCancel.connect("clicked", self.on_destroy)
 
-
         grid.attach(mainLabel, 13, 0, 1, 1)
         grid.attach(labelPcapName, 0, 1, 1, 1)
         grid.attach(labelDissectorName, 0, 2, 1, 1)
