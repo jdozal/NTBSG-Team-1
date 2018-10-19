@@ -49,10 +49,10 @@ class OpenPCAP(Gtk.Window):
         buttonCancel.connect("clicked", self.on_destroy)
 
 
-    def on_destroy(self):
+    def on_destroy(self, widget):
         self.destroy()
 
-    def on_open_clicked(self):
+    def on_open_clicked(self, widget):
         dialog = Gtk.FileChooserDialog("Select file", self,
                                        Gtk.FileChooserAction.OPEN,
                                        (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
