@@ -35,10 +35,29 @@ def on_folder_clicked(self, widget):
     dialog.set_default_size(800, 400)
 
     response = dialog.run()
+    folderPath = ''
     if response == Gtk.ResponseType.OK:
         print("Select clicked")
         print("Folder selected: " + dialog.get_filename())
+        folderPath = dialog.get_filename()
     elif response == Gtk.ResponseType.CANCEL:
         print("Cancel clicked")
 
     dialog.destroy()
+    return folderPath
+
+def add_filters(self, dialog):
+    filter_text = Gtk.FileFilter()
+    filter_text.set_name("Text files")
+    filter_text.add_mime_type("text/plain")
+    dialog.add_filter(filter_text)
+
+    filter_py = Gtk.FileFilter()
+    filter_py.set_name("Python files")
+    filter_py.add_mime_type("text/x-python")
+    dialog.add_filter(filter_py)
+
+    filter_any = Gtk.FileFilter()
+    filter_any.set_name("Any files")
+    filter_any.add_pattern("*")
+    dialog.add_filter(filter_any)
