@@ -1,121 +1,94 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Oct 12 11:15:16 2018
-
-@author: Jessica Dozal
-"""
-
 import gi
-gi.require_version("Gtk", "3.0")
+gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
-import FileChooserWindow
+
 
 class WorkspaceLauncher(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title="Workspace Launcher")
-        #self.set_size_request(500, 200)
-        self.set_border_width(50)
+        self.set_border_width(20)
+        self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
+        self.set_resizable(False)
 
-        self.timeout_id = None
+        grid = Gtk.Grid()
+        grid.set_column_spacing(10)
+        grid.set_row_spacing(10)
+        self.add(grid)
 
-        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-        self.add(vbox)
+        # Labels
+        mainLabel = Gtk.Label("Select a directory as workspace: NTBSG uses the workspace \n"
+                              " directory to store sessions")
+        labelWorkspace = Gtk.Label("Workspace")
+        labelDestName = Gtk.Label("Destination Folder Name")
+        labelDestPath = Gtk.Label("Destination Folder Path")
 
-        mainLabel = Gtk.Label("Select a directory as workspace: NTBSG uses the workspace \ndirectory to store sessions")
-        vbox.pack_start(mainLabel, True, True, 0)
+        # entries
+        entryWorkspace = Gtk.Entry()
+        entryWorkspace.set_placeholder_text("Workspace Directory Path")
+        entryDestName = Gtk.Entry()
+        entryDestName.set_placeholder_text("Destination Folder Name")
+        entryDestPath = Gtk.Entry()
+        entryDestPath.set_placeholder_text("Destination Folder Path")
 
-        # Workspace path        
-        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        label = Gtk.Label("Workspace")
-        hbox.add(label)
-        entry = Gtk.Entry()
-        entry.set_placeholder_text("Workspace Directory Path")
-        hbox.add(entry)
-        browseFolder1 = Gtk.Button("Browse")
-        hbox.add(browseFolder1)
-        vbox.add(hbox)
-        
-        # Destination name
-        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        label = Gtk.Label("Destination \nFolder Name")
-        hbox.add(label)
-        entry = Gtk.Entry()
-        entry.set_placeholder_text("Destination Folder Name")
-        hbox.add(entry)
-        vbox.add(hbox)
+        # buttons
+        buttonBrowse1 = Gtk.Button("Browse")
+        buttonBrowse2 = Gtk.Button("Browse")
+        buttonCancel = Gtk.Button("Cancel")
+        buttonLaunch = Gtk.Button("Launch")
 
-        # Destination path
-        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        label = Gtk.Label("Destination \nFolder Path")
-        hbox.add(label)
-        entry = Gtk.Entry()
-        entry.set_placeholder_text("Destination Folder Path")
-        hbox.add(entry)
-        browseFolder2 = Gtk.Button("Browse")
-        hbox.add(browseFolder2)
-        vbox.add(hbox)
-        
-        
-        # Buttons
-        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        launchButton = Gtk.Button("Launch")
-        hbox.add(launchButton)
-        cancelButton = Gtk.Button("Cancel")
-        hbox.add(cancelButton)
-        vbox.add(hbox)
-        
-        # Connecting buttons 
-        launchButton.connect("clicked", self.on_launch_clicked) 
-        cancelButton.connect("clicked", self.on_destroy)
-        browseFolder1.connect("clicked", self.on_folder_clicked)
-        browseFolder2.connect("clicked", self.on_folder_clicked)
-        
-    def on_editable_toggled(self, button):
-        value = button.get_active()
-        self.entry.set_editable(value)
+        grid.attach(mainLabel, 2, 0, 1, 1)
+        grid.attach(labelWorkspace, 0, 1, 1, 1)
+        grid.attach(labelDestName, 0, 2, 1, 1)
+        grid.attach(labelDestPath, 0, 3, 1, 1)
+        grid.attach(entryWorkspace, 1, 1, 5, 1)
+        grid.attach(entryDestName, 1, 2, 5, 1)
+        grid.attach(entryDestPath, 1, 3, 5, 1)
+        grid.attach(buttonBrowse1, 7, 1, 1, 1)
+        grid.attach(buttonBrowse2, 7, 3, 1, 1)
+        grid.attach(buttonLaunch, 5, 4, 1, 1)
+        grid.attach(buttonCancel, 7, 4, 1, 1)
 
-    def on_visible_toggled(self, button):
-        value = button.get_active()
-        self.entry.set_visibility(value)
 
-    def on_pulse_toggled(self, button):
-        if button.get_active():
-            self.entry.set_progress_pulse_step(0.2)
-            # Call self.do_pulse every 100 ms
-            self.timeout_id = GLib.timeout_add(100, self.do_pulse, None)
-        else:
-            # Don't call self.do_pulse anymore
-            GLib.source_remove(self.timeout_id)
-            self.timeout_id = None
-            self.entry.set_progress_pulse_step(0)
+        buttonCancel.connect("clicked", self.on_destroy)
+        buttonBrowse1.connect("clicked", self.on_open_clicked)
+        buttonBrowse2.connect("clicked", self.on_open_clicked)
+        buttonCancel.connect("clicked", self.on_destroy)
 
-    def do_pulse(self, user_data):
-        self.entry.progress_pulse()
-        return True
 
-    def on_icon_toggled(self, button):
-        if button.get_active():
-            icon_name = "system-search-symbolic"
-        else:
-            icon_name = None
-        self.entry.set_icon_from_icon_name(Gtk.EntryIconPosition.PRIMARY,
-            icon_name)
-        
-    def on_launch_clicked(self, widget):
-        from MainWindow import MainWindow
-        win = MainWindow()
-        win.show_all()
-    
     def on_destroy(self, widget):
         self.destroy()
-    
-    def on_folder_clicked(self,widget):
-        FileChooserWindow.on_folder_clicked(self,widget)
-        
+
+    def on_open_clicked(self, widget):
+        dialog = Gtk.FileChooserDialog("Select file", self,
+                                       Gtk.FileChooserAction.OPEN,
+                                       (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                                        Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+        dialog.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
+        self.add_filters(dialog)
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            print("File selected: " + dialog.get_filename())
+            dialog.destroy()
+
+        dialog.destroy()
+
+    # filters file options
+    def add_filters(self, dialog):
+        filter_text = Gtk.FileFilter()
+        filter_text.set_name("Text files")
+        filter_text.add_mime_type("text/plain")
+        dialog.add_filter(filter_text)
+        filter_py = Gtk.FileFilter()
+        filter_py.set_name("Python files")
+        filter_py.add_mime_type("text/x-python")
+        dialog.add_filter(filter_py)
+        filter_any = Gtk.FileFilter()
+        filter_any.set_name("Any files")
+        filter_any.add_pattern("*")
+        dialog.add_filter(filter_any)
+
 win = WorkspaceLauncher()
 win.connect("destroy", Gtk.main_quit)
-win.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
 win.show_all()
 Gtk.main()
