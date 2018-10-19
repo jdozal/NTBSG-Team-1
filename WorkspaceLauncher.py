@@ -9,6 +9,7 @@ Created on Fri Oct 12 11:15:16 2018
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
+import FileChooserWindow
 
 class WorkspaceLauncher(Gtk.Window):
 
@@ -32,8 +33,8 @@ class WorkspaceLauncher(Gtk.Window):
         entry = Gtk.Entry()
         entry.set_placeholder_text("Workspace Directory Path")
         hbox.add(entry)
-        button = Gtk.Button("Browse")
-        hbox.add(button)
+        browseFolder1 = Gtk.Button("Browse")
+        hbox.add(browseFolder1)
         vbox.add(hbox)
         
         # Destination name
@@ -52,8 +53,8 @@ class WorkspaceLauncher(Gtk.Window):
         entry = Gtk.Entry()
         entry.set_placeholder_text("Destination Folder Path")
         hbox.add(entry)
-        button = Gtk.Button("Browse")
-        hbox.add(button)
+        browseFolder2 = Gtk.Button("Browse")
+        hbox.add(browseFolder2)
         vbox.add(hbox)
         
         
@@ -68,6 +69,8 @@ class WorkspaceLauncher(Gtk.Window):
         # Connecting buttons 
         launchButton.connect("clicked", self.on_launch_clicked) 
         cancelButton.connect("clicked", self.on_destroy)
+        browseFolder1.connect("clicked", self.on_folder_clicked)
+        browseFolder2.connect("clicked", self.on_folder_clicked)
         
     def on_editable_toggled(self, button):
         value = button.get_active()
@@ -101,12 +104,15 @@ class WorkspaceLauncher(Gtk.Window):
             icon_name)
         
     def on_launch_clicked(self, widget):
-        import MainWindow
+        from MainWindow import MainWindow
         win = MainWindow()
         win.show_all()
     
     def on_destroy(self, widget):
         self.destroy()
+    
+    def on_folder_clicked(self,widget):
+        FileChooserWindow.on_folder_clicked(self,widget)
         
 win = WorkspaceLauncher()
 win.connect("destroy", Gtk.main_quit)
