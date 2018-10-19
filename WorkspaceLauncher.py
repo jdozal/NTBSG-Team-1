@@ -37,7 +37,6 @@ class WorkspaceLauncher(Gtk.Window):
         buttonCancel = Gtk.Button("Cancel")
         buttonLaunch = Gtk.Button("Launch")
 
-
         grid.attach(mainLabel, 2, 0, 1, 1)
         grid.attach(labelWorkspace, 0, 1, 1, 1)
         grid.attach(labelDestName, 0, 2, 1, 1)
@@ -74,7 +73,7 @@ class WorkspaceLauncher(Gtk.Window):
 
         dialog.destroy()
 
-    # Add filters to the open file directory to show all files
+    # filters file options
     def add_filters(self, dialog):
         filter_text = Gtk.FileFilter()
         filter_text.set_name("Text files")
