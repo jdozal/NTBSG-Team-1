@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Created on Wed Nov 21 17:05:39 2018
@@ -13,7 +13,7 @@ class PCAP:
     filePath= ' '
     
     def convert():
-        cap = pyshark.FileCapture('/tmp/mycapture.cap')
-        cap
+        cap = pyshark.FileCapture('/Users/jdozal/Documents/Fall2018/SOFTWARE/PCAP/maccdc2012_00000.pcap')
+        print(cap[0])
         
     convert()
