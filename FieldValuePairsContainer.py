@@ -1,0 +1,4 @@
+
+class FieldValuePairsContainer:
+    name=''
+    filePath=''
