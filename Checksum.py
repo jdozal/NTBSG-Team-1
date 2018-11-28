@@ -1,4 +1,4 @@
 
-class MessageTypeContainer:
+class Checksum:
     name=''
     filePath=''
