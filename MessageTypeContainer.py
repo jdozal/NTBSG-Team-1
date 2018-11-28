@@ -1,0 +1,4 @@
+
+class MessageTypeContainer:
+    name=''
+    filePath=''

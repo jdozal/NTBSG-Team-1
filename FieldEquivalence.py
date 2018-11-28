@@ -1,0 +1,4 @@
+
+class FieldEquivalence:
+    name=''
+    filePath=''

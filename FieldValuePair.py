@@ -1,0 +1,4 @@
+
+class FieldValuePair:
+    name=''
+    filePath=''

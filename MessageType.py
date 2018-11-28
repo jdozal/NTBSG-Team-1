@@ -1,0 +1,5 @@
+
+
+class MessageType:
+    name=''
+    filePath=''

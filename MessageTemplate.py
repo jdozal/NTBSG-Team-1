@@ -1,0 +1,4 @@
+
+class MessageTemplate:
+    name=''
+    filePath=''
