@@ -1,4 +1,3 @@
 
 class MessageTypesContainer:
-    name=''
-    filePath=''
+    list=''

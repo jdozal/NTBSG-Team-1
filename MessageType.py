@@ -2,4 +2,4 @@
 
 class MessageType:
     name=''
-    filePath=''
+    color=''

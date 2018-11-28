@@ -1,4 +1,6 @@
 
 class MessageTemplate:
     name=''
-    filePath=''
+    destinationName=''
+    destinationPath=''
+    outputFormat=''

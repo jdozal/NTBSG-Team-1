@@ -1,4 +1,4 @@
 
 class PacketLengthDependency:
-    name=''
-    filePath=''
+    packetName=''
+    fieldName=''

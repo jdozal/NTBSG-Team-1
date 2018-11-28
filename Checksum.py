@@ -1,4 +1,4 @@
 
 class Checksum:
-    name=''
-    filePath=''
+    packetName=''
+    fieldName=''

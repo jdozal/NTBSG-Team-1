@@ -1,4 +1,6 @@
 
 class FieldEquivalence:
-    name=''
-    filePath=''
+    sourceMessageType=''
+    sourceFieldName=''
+    targetMessageType=''
+    targetFieldName=''

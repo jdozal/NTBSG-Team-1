@@ -1,4 +1,3 @@
 
 class Dependency:
-    name=''
-    filePath=''
+    function=''

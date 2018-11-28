@@ -1,4 +1,4 @@
 
 class FieldLengthDependency:
-    name=''
-    filePath=''
+    sourceFieldName=''
+    targetFieldName=''

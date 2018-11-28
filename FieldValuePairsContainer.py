@@ -1,4 +1,3 @@
 
 class FieldValuePairsContainer:
-    name=''
-    filePath=''
+    list=''

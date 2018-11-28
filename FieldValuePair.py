@@ -1,4 +1,4 @@
 
 class FieldValuePair:
-    name=''
-    filePath=''
+    fieldName=''
+    fieldValue=''
