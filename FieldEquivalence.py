@@ -1,6 +1,6 @@
+import Dependency
 
-
-class FieldEquivalence:
+class FieldEquivalence(Dependency):
     def __init__(self, sourceMessageType, sourceFieldName, targetMessageType, targetFieldName):
         self.sourceMesageType = sourceMessageType
         self.sourceFieldName = sourceFieldName
