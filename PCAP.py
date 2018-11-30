@@ -17,4 +17,4 @@ class PCAP:
         cmd = "tshark -r test.pcap > testPDML.pdml -T pdml"
         os.system(cmd)
     
-    convert()
+    #convert()

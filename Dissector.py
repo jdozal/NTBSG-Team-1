@@ -10,3 +10,6 @@ class Dissector:
     name=''
     filePath=''
     
+    def __init__(self, dname, dpath):
+        self.name = dname
+        self.filePath = dpath

@@ -3,9 +3,19 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 import FileChooserWindow
 
+import sys
+sys.path.append('../')
+import PCAP
+import Dissector 
+
+response = ''
+
+# entries 
+entryPcapName = Gtk.Entry()
+entryDissectorName = Gtk.Entry()
+
 class OpenPCAP(Gtk.Window):
     
-    response = ''
 
     def __init__(self):
         Gtk.Window.__init__(self, title="PCAP")
@@ -24,9 +34,7 @@ class OpenPCAP(Gtk.Window):
         labelDissectorName = Gtk.Label("Dissector Name")
 
         # entries
-        entryPcapName = Gtk.Entry()
         entryPcapName.set_placeholder_text("PCAP File")
-        entryDissectorName = Gtk.Entry()
         entryDissectorName.set_placeholder_text("Optional Dissector")
 
         # buttons
@@ -43,20 +51,37 @@ class OpenPCAP(Gtk.Window):
         grid.attach(entryDissectorName, 1, 2, 15, 1)
         grid.attach(buttonBrowse1, 18, 1, 1, 1)
         grid.attach(buttonBrowse2, 18, 2, 1, 1)
-        grid.attach(buttonConvert, 15, 3, 1, 1)
-        grid.attach(buttonCancel, 18, 3, 1, 1)
+        grid.attach(buttonConvert, 18, 3, 1, 1)
+        grid.attach(buttonCancel, 15, 3, 1, 1)
 
         buttonBrowse1.connect("clicked", self.on_file_clicked)
         buttonBrowse2.connect("clicked", self.on_file_clicked)
         buttonCancel.connect("clicked", self.on_destroy)
+        buttonConvert.connect("clicked", self.on_convert)
 
 
     def on_destroy(self, widget):
         self.destroy()
 
     def on_file_clicked(self,widget):
-        self.response = FileChooserWindow.on_file_clicked(self,widget)
-        print("RESPONSE - " + self.response)
+        response = FileChooserWindow.on_file_clicked(self,widget)
+        entryPcapName.set_text(response)
+        print("RESPONSE - " + response)
+        
+    def on_convert(self, widget):
+        pathPCAP = entryPcapName.get_text()
+        dissector = entryDissectorName.get_text()
+        print(pathPCAP)
+        if(pathPCAP == ''):
+            entryPcapName.set_text("Missing PCAP File")
+            pathPCAP = ''
+        else:
+            print(pathPCAP)
+            print(dissector)
+            
+            
+            
+        
         
         
 win = OpenPCAP()
