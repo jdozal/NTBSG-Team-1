@@ -10,7 +10,7 @@ class MessageTemplate:
     def name(self):
         return self.__name
     @name.setter
-    def sourceMessageType(self, name):
+    def name(self, name):
         self.__name = name
 
     @property
