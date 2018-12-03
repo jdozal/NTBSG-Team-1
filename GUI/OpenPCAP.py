@@ -4,9 +4,7 @@ from gi.repository import Gtk
 import FileChooserWindow
 
 import sys
-sys.path.append('../')
-import PCAP
-import Dissector 
+import PCAPtoPDMLController
 
 response = ''
 
@@ -51,8 +49,8 @@ class OpenPCAP(Gtk.Window):
         grid.attach(entryDissectorName, 1, 2, 15, 1)
         grid.attach(buttonBrowse1, 18, 1, 1, 1)
         grid.attach(buttonBrowse2, 18, 2, 1, 1)
-        grid.attach(buttonConvert, 18, 3, 1, 1)
-        grid.attach(buttonCancel, 15, 3, 1, 1)
+        grid.attach(buttonConvert, 15, 3, 1, 1)
+        grid.attach(buttonCancel, 18, 3, 1, 1)
 
         buttonBrowse1.connect("clicked", self.on_file_clicked)
         buttonBrowse2.connect("clicked", self.on_file_clicked)
@@ -65,6 +63,12 @@ class OpenPCAP(Gtk.Window):
 
     def on_file_clicked(self,widget):
         response = FileChooserWindow.on_file_clicked(self,widget)
+        
+        # Trying to have "all files" as default when opening file chooser
+        #filefilter = gtk.FileFilter()
+        #filefilter.set_name("All Files")
+
+
         entryPcapName.set_text(response)
         print("RESPONSE - " + response)
         
@@ -72,12 +76,15 @@ class OpenPCAP(Gtk.Window):
         pathPCAP = entryPcapName.get_text()
         dissector = entryDissectorName.get_text()
         print(pathPCAP)
-        if(pathPCAP == ''):
+        if(pathPCAP == '' or pathPCAP == "Missing PCAP File"):
             entryPcapName.set_text("Missing PCAP File")
-            pathPCAP = ''
         else:
             print(pathPCAP)
             print(dissector)
+            self.controller = PCAPtoPDMLController.PCAPtoPDMLController()
+            self.controller.setPCAP(pathPCAP)
+            self.controller.callConversion()
+            self.destroy()
             
             
             
