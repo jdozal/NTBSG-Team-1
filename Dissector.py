@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
 Created on Wed Nov 21 16:49:50 2018
@@ -20,6 +20,11 @@ class Dissector:
         cmd = "tshark -r "+ pcap.getPath() + " > " + pcap.getName() + ".pdml -T pdml"
         
         os.system(cmd)
+        
+        pdmlName = pcap.getName() + ".pdml"
+        
+        return pdmlName
+        
         
         
     
