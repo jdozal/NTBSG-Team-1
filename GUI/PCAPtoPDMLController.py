@@ -19,5 +19,7 @@ class PCAPtoPDMLController:
         namePDML = self.dissector.convert(self.pcap)
         self.pdml.setName(namePDML)
         self.pdml.parse()
+        
+    
 
 
