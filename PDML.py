@@ -8,9 +8,9 @@ Created on Wed Nov 21 17:06:56 2018
 import xml.etree.ElementTree as ET
 import Packet
 
-class PDML:    
-    
+class PDML:
     def __init__(self):
+
         self.name = ''
         self.timeStamp = ''
         self.analystName = ''

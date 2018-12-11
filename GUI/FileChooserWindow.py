@@ -51,6 +51,11 @@ def on_folder_clicked(self, widget):
     return folderPath
 
 def add_filters(self, dialog):
+    filter_any = Gtk.FileFilter()
+    filter_any.set_name("Any files")
+    filter_any.add_pattern("*")
+    dialog.add_filter(filter_any)
+    
     filter_text = Gtk.FileFilter()
     filter_text.set_name("Text files")
     filter_text.add_mime_type("text/plain")
@@ -61,7 +66,3 @@ def add_filters(self, dialog):
     filter_py.add_mime_type("text/x-python")
     dialog.add_filter(filter_py)
 
-    filter_any = Gtk.FileFilter()
-    filter_any.set_name("Any files")
-    filter_any.add_pattern("*")
-    dialog.add_filter(filter_any)
