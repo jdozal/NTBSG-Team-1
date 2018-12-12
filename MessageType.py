@@ -1,4 +1,5 @@
-import FieldValuePairsContainer, Protocol
+import FieldValuePairsContainer
+    #, Protocol
 
 
 class MessageType:
@@ -25,9 +26,21 @@ class MessageType:
 
     def update(self, name, color):
         if(name != 0 and color != 0):
-            self.name(name)
-            self.color(color)
+            self.name = name
+            self.color = color
         if(name != 0):
-            self.name(name)
+            self.name = name
         else:
-            self.color(color)
+            self.color = color
+
+# *****TESTING*****
+# test = MessageType("field", "blue")
+# print(test.name)
+# print(test.color)
+#
+# test.name = "bitch"
+# print(test.name)
+#
+# test.update(name="jk field", color="")
+# print(test.name)
+# print(test.color)xv
