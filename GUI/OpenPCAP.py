@@ -6,7 +6,7 @@ import PCAPtoPDMLController
 
 import sys
 sys.path.append('../')
-import Session
+from Session import Session 
 
 response = ''
 
@@ -83,6 +83,7 @@ class OpenPCAP(Gtk.Window):
         else:
             session = Session("Session1", "original PDML", workspace.path)
             workspace.addSession(session)
+            print("PATH= " + workspace.path)
             print(pathPCAP)
             print(dissector)
             self.controller = PCAPtoPDMLController.PCAPtoPDMLController()

@@ -3,7 +3,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 import FileChooserWindow
 from OpenPCAP import OpenPCAP
-import Workspace
+from Workspace import Workspace
 
 class WorkspaceLauncher(Gtk.Window):
 
@@ -56,7 +56,7 @@ class WorkspaceLauncher(Gtk.Window):
         buttonCancel.connect("clicked", self.on_destroy)
         buttonBrowse1.connect("clicked", self.on_folder_clicked, entryWorkspace, entryDestPath)
         #buttonBrowse2.connect("clicked", self.on_folder_clicked, entryDestPath)
-        buttonLaunch.connect("clicked", self.on_launch_clicked, entryWorkspace.get_text(), labelWorkspace.get_text())
+        buttonLaunch.connect("clicked", self.on_launch_clicked, entryWorkspace, entryDestName)
 
 
     def on_destroy(self, widget):
@@ -69,7 +69,7 @@ class WorkspaceLauncher(Gtk.Window):
         print("RESPONSE - " + self.response)
 
     def on_launch_clicked(self, widget, path, name):
-        workspace = Workspace(name, path)
+        workspace = Workspace(name.get_text(), path.get_text())
         win = OpenPCAP(workspace)
         win.show_all()
 

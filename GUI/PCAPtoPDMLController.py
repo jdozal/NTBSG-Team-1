@@ -18,8 +18,5 @@ class PCAPtoPDMLController:
     def callConversion(self, path):
         namePDML = self.dissector.convert(self.pcap, path)
         self.pdml.setName(namePDML)
-        self.pdml.parse()
+        self.pdml.parse(path)
         
-    
-
-

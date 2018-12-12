@@ -14,6 +14,6 @@ class Field:
         self.value = size
         self.plainXML = plainXML
         # Testing purposes
-        print(self.name)        
+        #print(self.name)        
 
 

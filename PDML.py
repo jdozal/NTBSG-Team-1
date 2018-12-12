@@ -23,8 +23,9 @@ class PDML:
         self.name = name
         print(self.name)
     
-    def parse(self):
-        tree = ET.parse(self.name)
+    def parse(self, path):
+        print(path)
+        tree = ET.parse(path + "/Session1/" + self.name)
         root = tree.getroot()
         # Getting all the packets 
         for child in root:
