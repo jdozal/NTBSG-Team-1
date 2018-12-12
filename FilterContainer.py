@@ -9,7 +9,7 @@ import Filter
 
 class FilterContainer:
     def __init__(self):
-        self.filterList = []
+        self.filterList = ["ICMP", "TCP", "DNS"]
         
     def addFilter(self):
         filterName = "name"
@@ -18,6 +18,6 @@ class FilterContainer:
         self.filterList.append(currFilter)
         print(self.filterList)
 
-FC = FilterContainer()
-FC.addFilter()
-FC.addFilter()
+# FC = FilterContainer()
+# FC.addFilter()
+# FC.addFilter()

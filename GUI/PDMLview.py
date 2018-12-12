@@ -11,6 +11,9 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 import MessageTypeArea, PacketArea, FieldArea
+import sys
+sys.path.append('../')
+from FilterContainer import FilterContainer
 
 class PDMLview:
 
@@ -135,7 +138,16 @@ class PDMLview:
 
         # drop down
         # TODO HAVE TO ESTABLISH THE filters saved OF THE DROPDOWN
-        savedFilters = Gtk.ComboBox()
+        filters = FilterContainer()
+        filter_store = Gtk.ListStore(str)
+        for filterT in filters.filterList:
+                filter_store.append([filterT])
+        savedFilters = Gtk.ComboBox().new_with_model(filter_store)
+
+        savedFilters.connect("changed", self.on_filter_combo_changed)
+        renderer_text = Gtk.CellRendererText()
+        savedFilters.pack_start(renderer_text, True)
+        savedFilters.add_attribute(renderer_text, "text", 0)
 
     #    # adding second line into box
         lineBox.add(filterLabel)
@@ -149,6 +161,13 @@ class PDMLview:
         filterListBox.add(lineBox)
 
         return filterBox
+
+    def on_filter_combo_changed(self, combo):
+        tree_iter = combo.get_active_iter()
+        if tree_iter is not None:
+            model = combo.get_model()
+            filterT = model[tree_iter][0]
+            print("Selected: filter=%s" % filterT)
 
     def bottomPDMLView(self):
         box = Gtk.Box()
