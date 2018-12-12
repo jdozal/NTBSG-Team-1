@@ -18,3 +18,4 @@ class Checksum(Dependency):
     @fieldName.setter
     def fieldName(self, fieldName):
         self.__fieldName = fieldName
+        #comment

@@ -30,6 +30,7 @@ class WorkspaceLauncher(Gtk.Window):
         entryDestName.set_placeholder_text("Destination Folder Name")
         entryDestPath = Gtk.Entry()
         entryDestPath.set_placeholder_text("Destination Folder Path")
+        print(entryWorkspace)
 
         # buttons
         buttonBrowse1 = Gtk.Button("Browse")
@@ -64,8 +65,8 @@ class WorkspaceLauncher(Gtk.Window):
         print("RESPONSE - " + self.response)
 
     def on_launch_clicked(self, widget):
-        from MainWindow import MainWindow
-        win = MainWindow()
+        from OpenPCAP import OpenPCAP
+        win = OpenPCAP()
         win.show_all()
 
 win = WorkspaceLauncher()

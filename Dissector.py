@@ -17,6 +17,7 @@ class Dissector:
     
     def convert(self, pcap):
         # PCAP to PDML 
+        
         cmd = "tshark -r "+ pcap.getPath() + " > " + pcap.getName() + ".pdml -T pdml"
         
         os.system(cmd)
