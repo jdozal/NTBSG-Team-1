@@ -1,5 +1,6 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
+
 import sys 
 sys.path.append('../')
 import PCAP
@@ -15,8 +16,13 @@ class PCAPtoPDMLController:
     def setPCAP(self, path):
         self.pcap.setAttributes(path)
         
-    def callConversion(self, path):
-        namePDML = self.dissector.convert(self.pcap, path)
+    def callConversion(self, workspace):
+        namePDML = self.dissector.convert(self.pcap, workspace.path)
         self.pdml.setName(namePDML)
-        self.pdml.parse(path)
+        self.pdml.parse(workspace.path)
+        from MainWindow import MainWindow
+        window = MainWindow(workspace)
+        #window.connect("destroy", Gtk.main_quit)
+        window.maximize()
+        window.show_all()
         

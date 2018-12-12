@@ -33,5 +33,6 @@ class PDML:
             currPacket = Packet.Packet('','',ET.tostring(child, encoding='utf8').decode('utf8'))
             # adding to packetlist
             self.packetList.append(currPacket)
+        return
     
          

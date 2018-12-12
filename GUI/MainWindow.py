@@ -7,7 +7,7 @@ from gi.repository import Gtk
 
 class MainWindow(Gtk.Window):
 
-    def __init__(self):
+    def __init__(self, workspace):
         Gtk.Window.__init__(self, title="NTSBG")
 
         self.set_border_width(10)
@@ -146,12 +146,12 @@ class MainWindow(Gtk.Window):
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         hbox.store = Gtk.TreeStore(str, bool)
 
-        for i in range(len(workspace)):
-            piter = hbox.store.append(None, [workspace[i][0], False])
+        for i in range(len(work)):
+            piter = hbox.store.append(None, [work[i][0], False])
 
             j = 1
-            while j < len(workspace[i]):
-                hbox.store.append(piter, workspace[i][j])
+            while j < len(work[i]):
+                hbox.store.append(piter, work[i][j])
                 j += 1
 
         view = Gtk.TreeView()
@@ -248,16 +248,16 @@ class MainWindow(Gtk.Window):
         win.show_all()
 
 
-workspace = [["Session A",
+work = [["Session A",
               ["State 1", False],
               ["State 2", False]],
              ["Session B", ["stage", False]],
              ["Session C", ["stage", False]]
              ]
 
-window = MainWindow()
-window.connect("destroy", Gtk.main_quit)
-window.show_all()
-# Maximize window
-window.maximize()
-Gtk.main()
+# window = MainWindow(workspace)
+# window.connect("destroy", Gtk.main_quit)
+# window.show_all()
+# # Maximize window
+# window.maximize()
+# Gtk.main()

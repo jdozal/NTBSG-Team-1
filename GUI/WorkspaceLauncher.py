@@ -2,7 +2,8 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 import FileChooserWindow
-from OpenPCAP import OpenPCAP
+import sys 
+sys.path.append('../')
 from Workspace import Workspace
 
 class WorkspaceLauncher(Gtk.Window):
@@ -70,8 +71,10 @@ class WorkspaceLauncher(Gtk.Window):
 
     def on_launch_clicked(self, widget, path, name):
         workspace = Workspace(name.get_text(), path.get_text())
+        from OpenPCAP import OpenPCAP
         win = OpenPCAP(workspace)
         win.show_all()
+        #self.destroy()
 
 win = WorkspaceLauncher()
 win.connect("destroy", Gtk.main_quit)

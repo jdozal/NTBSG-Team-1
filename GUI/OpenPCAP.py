@@ -83,16 +83,16 @@ class OpenPCAP(Gtk.Window):
         else:
             session = Session("Session1", "original PDML", workspace.path)
             workspace.addSession(session)
-            print("PATH= " + workspace.path)
+            #print("PATH= " + workspace.path)
             print(pathPCAP)
             print(dissector)
             self.controller = PCAPtoPDMLController.PCAPtoPDMLController()
             self.controller.setPCAP(pathPCAP)
-            self.controller.callConversion(workspace.path)
+            self.controller.callConversion(workspace)
             self.destroy()
             
         
-#win = OpenPCAP()
-#win.connect("destroy", Gtk.main_quit)
-#win.show_all()
-#Gtk.main()
+# win = OpenPCAP()
+# win.connect("destroy", Gtk.main_quit)
+# win.show_all()
+# Gtk.main()
