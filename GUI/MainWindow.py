@@ -1,15 +1,17 @@
 import gi
 import PDMLview
+
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
+
 
 class MainWindow(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title="NTSBG")
-      
+
         self.set_border_width(10)
-        #self.set_default_size(s.get_width(), s.get_height())
+        # self.set_default_size(s.get_width(), s.get_height())
 
         # initialize header bar
         header = self.header()
@@ -54,7 +56,7 @@ class MainWindow(Gtk.Window):
         switchBtn = Gtk.Button(label="Switch Workspace")
         pcapBtn = Gtk.Button(label="Open PCAP")
         terminalBtn = Gtk.Button(label="Terminal")
-        
+
         # Connecting buttons
         createBtn.connect("clicked", self.on_new_session_clicked)
         pcapBtn.connect("clicked", self.on_open_pcap_clicked)
@@ -96,7 +98,8 @@ class MainWindow(Gtk.Window):
         views = Gtk.ListBoxRow()
 
         sessionsView = self.sessionsDesign()
-        pdmlView = PDMLview.pdmlDesign()
+        pdml = PDMLview.PDMLview()
+        pdmlView = pdml.pdmlDesign()
 
         views.add(sessionsView)
         sessionsView.pack_start(pdmlView, True, True, 0)
@@ -222,7 +225,7 @@ class MainWindow(Gtk.Window):
         rightBox.pack_start(descriptionEntry, True, True, 0)
         rightBox.pack_start(buttonBox, True, True, 0)
 
-        #adding to grid
+        # adding to grid
         grid.add(tagLabel)
         grid.attach_next_to(leftBox, tagLabel, Gtk.PositionType.BOTTOM, 1, 1)
         grid.attach_next_to(rightBox, leftBox, Gtk.PositionType.RIGHT, 1, 1)
@@ -244,16 +247,17 @@ class MainWindow(Gtk.Window):
         win = OpenSession()
         win.show_all()
 
+
 workspace = [["Session A",
-        ["State 1", False],
-        ["State 2", False]],
-        ["Session B", ["stage", False]],
-        ["Session C", ["stage", False]]
-        ]
+              ["State 1", False],
+              ["State 2", False]],
+             ["Session B", ["stage", False]],
+             ["Session C", ["stage", False]]
+             ]
 
 window = MainWindow()
 window.connect("destroy", Gtk.main_quit)
 window.show_all()
-# Maximize window 
+# Maximize window
 window.maximize()
 Gtk.main()
