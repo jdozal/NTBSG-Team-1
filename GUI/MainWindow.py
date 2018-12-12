@@ -4,11 +4,18 @@ import PDMLview
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
+import sys
+sys.path.append('../')
+from Workspace import Workspace 
 
 class MainWindow(Gtk.Window):
 
+    currentWorkspace = Workspace("","")
+
     def __init__(self, workspace):
         Gtk.Window.__init__(self, title="NTSBG")
+        currentWorkspace = workspace
+        print("workspace name= " + currentWorkspace.name)
 
         self.set_border_width(10)
         # self.set_default_size(s.get_width(), s.get_height())
@@ -26,7 +33,7 @@ class MainWindow(Gtk.Window):
         listMain.add(stages)
 
         # initialize views
-        views = self.viewsDesign()
+        views = self.viewsDesign(currentWorkspace)
         listMain.add(views)
 
     def header(self):
@@ -94,12 +101,12 @@ class MainWindow(Gtk.Window):
 
         return stages
 
-    def viewsDesign(self):
+    def viewsDesign(self, currentWorkspace):
         views = Gtk.ListBoxRow()
 
         sessionsView = self.sessionsDesign()
         pdml = PDMLview.PDMLview()
-        pdmlView = pdml.pdmlDesign()
+        pdmlView = pdml.pdmlDesign(currentWorkspace)
 
         views.add(sessionsView)
         sessionsView.pack_start(pdmlView, True, True, 0)

@@ -42,7 +42,7 @@ def Tabs():
             j += 1
 
     view = Gtk.TreeView()
-    view.set_model(hbox.store)
+   # view.set_model(hbox.store)
 
     renderer = Gtk.CellRendererToggle()
     column_in_size = Gtk.TreeViewColumn("", renderer, active=1)

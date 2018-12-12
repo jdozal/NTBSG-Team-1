@@ -11,14 +11,21 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 import MessageTypeArea, PacketArea, FieldArea
+
 import sys
 sys.path.append('../')
+from Workspace import Workspace 
 from FilterContainer import FilterContainer
+import PCAP
+import Dissector 
+import PDML
 
 class PDMLview:
 
-    def pdmlDesign(self):
+    currentWorkspace = Workspace("","")
 
+    def pdmlDesign(self, workspace):
+        currentWorkspace = workspace
         # Starting box for pdmlView
         pdmlBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         pdmlBox.set_homogeneous(True)
@@ -45,14 +52,14 @@ class PDMLview:
         pdmlListBox.add(menu)
 
         # filter area
-        filterTab = self.filterArea()
+        filterTab = self.filterArea(currentWorkspace)
         pdmlListBox.add(filterTab)
         # grid.add(filterTab)
 
         # pdmlListBox.add(grid)
 
         # packet area
-        packetArea = PacketArea.Tabs()
+        packetArea = PacketArea.Tabs(currentWorkspace)
         # grid.add(packetArea)
         pdmlListBox.add(packetArea)
 
@@ -96,7 +103,7 @@ class PDMLview:
         return header
 
 
-    def filterArea(self):
+    def filterArea(self, currentWorkspace):
 
         # Starting box for filter
         filterBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
@@ -144,7 +151,7 @@ class PDMLview:
                 filter_store.append([filterT])
         savedFilters = Gtk.ComboBox().new_with_model(filter_store)
 
-        savedFilters.connect("changed", self.on_filter_combo_changed)
+        #savedFilters.connect("changed", self.on_filter_combo_changed)
         renderer_text = Gtk.CellRendererText()
         savedFilters.pack_start(renderer_text, True)
         savedFilters.add_attribute(renderer_text, "text", 0)
@@ -158,16 +165,23 @@ class PDMLview:
         lineBox.pack_start(savedFilters, True, True, 0)
         lineBox.pack_start(applyFilterBtn, True, True, 0)
 
+        applyFilterBtn.connect("clicked", self.on_filter_apply_clicked, savedFilters, currentWorkspace)
+
         filterListBox.add(lineBox)
 
         return filterBox
 
-    def on_filter_combo_changed(self, combo):
+    def on_filter_apply_clicked(self, widget, combo, workspace):
         tree_iter = combo.get_active_iter()
         if tree_iter is not None:
             model = combo.get_model()
             filterT = model[tree_iter][0]
-            print("Selected: filter=%s" % filterT)
+            #print("Selected: filter=%s" % filterT)
+        dissector = Dissector.Dissector("", "")
+        pdml = PDML.PDML()
+        namePDML = dissector.convert(workspace.pcap, workspace.path)
+        pdml.setName(namePDML)
+        pdml.parse(workspace.path, filterT)
 
     def bottomPDMLView(self):
         box = Gtk.Box()

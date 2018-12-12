@@ -1,13 +1,18 @@
 
 class Workspace:
+
     def __init__(self, name, path):
         self.name = name
         self.path = path
         self.sessions = []
+        self.pcap = ''
         #os.mkdir()
 
     def addSession(self, session):
         self.sessions.append(session)
+
+    def setPCAP(self, pcap):
+        self.pcap = pcap
 
 
 	# @property

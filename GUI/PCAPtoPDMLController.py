@@ -6,6 +6,7 @@ sys.path.append('../')
 import PCAP
 import Dissector 
 import PDML
+import Workspace
 
 class PCAPtoPDMLController:
     def __init__(self):
@@ -17,9 +18,10 @@ class PCAPtoPDMLController:
         self.pcap.setAttributes(path)
         
     def callConversion(self, workspace):
-        namePDML = self.dissector.convert(self.pcap, workspace.path)
-        self.pdml.setName(namePDML)
-        self.pdml.parse(workspace.path)
+        #namePDML = self.dissector.convert(self.pcap, workspace.path)
+        workspace.setPCAP(self.pcap)
+        #self.pdml.setName(namePDML)
+        #self.pdml.parse(workspace.path)
         from MainWindow import MainWindow
         window = MainWindow(workspace)
         #window.connect("destroy", Gtk.main_quit)

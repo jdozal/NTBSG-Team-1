@@ -9,7 +9,7 @@ import Filter
 
 class FilterContainer:
     def __init__(self):
-        self.filterList = ["ICMP", "TCP", "DNS"]
+        self.filterList = ["icmp", "tcp", "dns"]
         
     def addFilter(self):
         filterName = "name"
@@ -17,14 +17,6 @@ class FilterContainer:
         currFilter = Filter.Filter(filterName, expressionName)
         self.filterList.append(currFilter)
         print(self.filterList)
-
-# TODO FIGURE OUT THE FILTERING OF PROTOCOLS
-    def filterOut(self, filterT, file):
-    	for country in root.findall('country'):
-    		rank = int(country.find('rank').text)
-    		if rank > 50:
-    			root.remove(country)
-    	tree.write('output.xml')
 
 # FC = FilterContainer()
 # FC.addFilter()
