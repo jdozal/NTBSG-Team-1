@@ -1,4 +1,5 @@
 #import PDML, Workspace
+import os
 
 class Session:
 	def __init__(self, name, description, path):
