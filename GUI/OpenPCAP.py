@@ -2,9 +2,11 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 import FileChooserWindow
+import PCAPtoPDMLController
 
 import sys
-import PCAPtoPDMLController
+sys.path.append('../')
+import Session
 
 response = ''
 
@@ -15,7 +17,7 @@ entryDissectorName = Gtk.Entry()
 class OpenPCAP(Gtk.Window):
     
 
-    def __init__(self):
+    def __init__(self, workspace):
         Gtk.Window.__init__(self, title="PCAP")
         self.set_border_width(20)
         self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
@@ -55,7 +57,7 @@ class OpenPCAP(Gtk.Window):
         buttonBrowse1.connect("clicked", self.on_file_clicked)
         buttonBrowse2.connect("clicked", self.on_file_clicked)
         buttonCancel.connect("clicked", self.on_destroy)
-        buttonConvert.connect("clicked", self.on_convert)
+        buttonConvert.connect("clicked", self.on_convert, workspace)
 
 
     def on_destroy(self, widget):
@@ -72,26 +74,24 @@ class OpenPCAP(Gtk.Window):
         entryPcapName.set_text(response)
         print("RESPONSE - " + response)
         
-    def on_convert(self, widget):
+    def on_convert(self, widget, workspace):
         pathPCAP = entryPcapName.get_text()
         dissector = entryDissectorName.get_text()
         print(pathPCAP)
         if(pathPCAP == '' or pathPCAP == "Missing PCAP File"):
             entryPcapName.set_text("Missing PCAP File")
         else:
+            session = Session("Session1", "original PDML", workspace.path)
+            workspace.addSession(session)
             print(pathPCAP)
             print(dissector)
             self.controller = PCAPtoPDMLController.PCAPtoPDMLController()
             self.controller.setPCAP(pathPCAP)
-            self.controller.callConversion()
+            self.controller.callConversion(workspace.path)
             self.destroy()
             
-            
-            
         
-        
-        
-win = OpenPCAP()
-win.connect("destroy", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+#win = OpenPCAP()
+#win.connect("destroy", Gtk.main_quit)
+#win.show_all()
+#Gtk.main()
