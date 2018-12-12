@@ -15,17 +15,13 @@ class Dissector:
         self.name = dname
         self.filePath = dpath
     
-    def convert(self, pcap):
+    def convert(self, pcap, path):
         # PCAP to PDML 
         
-        cmd = "tshark -r "+ pcap.getPath() + " > " + pcap.getName() + ".pdml -T pdml"
+        cmd = "tshark -r "+ pcap.getPath() + " > " + path + "/Session1/" + pcap.getName() + ".pdml -T pdml"
         
         os.system(cmd)
         
         pdmlName = pcap.getName() + ".pdml"
         
         return pdmlName
-        
-        
-        
-    

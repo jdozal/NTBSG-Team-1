@@ -2,6 +2,8 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 import FileChooserWindow
+from OpenPCAP import OpenPCAP
+import Workspace
 
 class WorkspaceLauncher(Gtk.Window):
 
@@ -27,14 +29,14 @@ class WorkspaceLauncher(Gtk.Window):
         entryWorkspace = Gtk.Entry()
         entryWorkspace.set_placeholder_text("Workspace Directory Path")
         entryDestName = Gtk.Entry()
-        entryDestName.set_placeholder_text("Destination Folder Name")
+        entryDestName.set_text("WorkspaceFolder")
         entryDestPath = Gtk.Entry()
         entryDestPath.set_placeholder_text("Destination Folder Path")
-        print(entryWorkspace)
+        #print(entryWorkspace)
 
         # buttons
         buttonBrowse1 = Gtk.Button("Browse")
-        buttonBrowse2 = Gtk.Button("Browse")
+        #buttonBrowse2 = Gtk.Button("Browse")
         buttonCancel = Gtk.Button("Cancel")
         buttonLaunch = Gtk.Button("Launch")
 
@@ -46,27 +48,29 @@ class WorkspaceLauncher(Gtk.Window):
         grid.attach(entryDestName, 1, 2, 5, 1)
         grid.attach(entryDestPath, 1, 3, 5, 1)
         grid.attach(buttonBrowse1, 7, 1, 1, 1)
-        grid.attach(buttonBrowse2, 7, 3, 1, 1)
+        #grid.attach(buttonBrowse2, 7, 3, 1, 1)
         grid.attach(buttonLaunch, 5, 4, 1, 1)
         grid.attach(buttonCancel, 7, 4, 1, 1)
 
 
         buttonCancel.connect("clicked", self.on_destroy)
-        buttonBrowse1.connect("clicked", self.on_folder_clicked)
-        buttonBrowse2.connect("clicked", self.on_folder_clicked)
-        buttonLaunch.connect("clicked", self.on_launch_clicked)
+        buttonBrowse1.connect("clicked", self.on_folder_clicked, entryWorkspace, entryDestPath)
+        #buttonBrowse2.connect("clicked", self.on_folder_clicked, entryDestPath)
+        buttonLaunch.connect("clicked", self.on_launch_clicked, entryWorkspace.get_text(), labelWorkspace.get_text())
 
 
     def on_destroy(self, widget):
         self.destroy()
 
-    def on_folder_clicked(self,widget):
+    def on_folder_clicked(self, widget, entry1, entry2):
         self.response = FileChooserWindow.on_folder_clicked(self,widget)
+        entry1.set_text(self.response)
+        entry2.set_text(self.response + "/Conversions")
         print("RESPONSE - " + self.response)
 
-    def on_launch_clicked(self, widget):
-        from OpenPCAP import OpenPCAP
-        win = OpenPCAP()
+    def on_launch_clicked(self, widget, path, name):
+        workspace = Workspace(name, path)
+        win = OpenPCAP(workspace)
         win.show_all()
 
 win = WorkspaceLauncher()
