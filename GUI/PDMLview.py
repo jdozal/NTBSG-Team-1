@@ -59,7 +59,8 @@ class PDMLview:
         # pdmlListBox.add(grid)
 
         # packet area
-        packetArea = PacketArea.Tabs(currentWorkspace)
+        pckt = PacketArea.PacketArea()
+        packetArea = pckt.Tabs(currentWorkspace)
         # grid.add(packetArea)
         pdmlListBox.add(packetArea)
 
