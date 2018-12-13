@@ -184,6 +184,7 @@ class PDMLview:
         pdml.setName(namePDML)
         pdml.parse(workspace.path, filterT)
         workspace.sessions[0].addPDML(pdml)
+        
 
     def bottomPDMLView(self):
         box = Gtk.Box()

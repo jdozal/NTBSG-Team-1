@@ -104,7 +104,7 @@ class MainWindow(Gtk.Window):
     def viewsDesign(self, currentWorkspace):
         views = Gtk.ListBoxRow()
 
-        sessionsView = self.sessionsDesign()
+        sessionsView = self.sessionsDesign(currentWorkspace)
         pdml = PDMLview.PDMLview()
         pdmlView = pdml.pdmlDesign(currentWorkspace)
 
@@ -113,7 +113,7 @@ class MainWindow(Gtk.Window):
 
         return views
 
-    def sessionsDesign(self):
+    def sessionsDesign(self, currentWorkspace):
         sessionsViewCol = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
         thisListBox = Gtk.ListBox()
@@ -129,7 +129,7 @@ class MainWindow(Gtk.Window):
         sessionsTab = self.sessionsArea()
 
         # Tag Area
-        tagAreaTab = self.tagArea()
+        tagAreaTab = self.tagArea(currentWorkspace)
 
         thisListBox.add(titleBox)
         thisListBox.add(sessionsTab)
@@ -183,7 +183,7 @@ class MainWindow(Gtk.Window):
 
         return sessionsTab
 
-    def tagArea(self):
+    def tagArea(self, workspace):
         tagAreaTab = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
         grid = Gtk.Grid()
@@ -202,8 +202,17 @@ class MainWindow(Gtk.Window):
         descriptionLabel = Gtk.Label("Tag Description")
 
         # drop down menu
-        # TODO HAVE TO ESTABLISH THE INSIDE OF THE DROPDOWN
-        savedCombo = Gtk.ComboBox()
+        tagListWorkspace = workspace.tagContainer
+        tag_store = Gtk.ListStore(str)
+        for currTag in tagListWorkspace.tagList:
+            tagStr = currTag.name
+            print(tagStr)
+            tag_store.append([tagStr])
+        savedCombo = Gtk.ComboBox().new_with_model(tag_store)
+        
+        renderer_text = Gtk.CellRendererText()
+        savedCombo.pack_start(renderer_text, True)
+        savedCombo.add_attribute(renderer_text, "text", 0)
 
         # text boxes
         nameEntry = Gtk.Entry()

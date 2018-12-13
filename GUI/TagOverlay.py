@@ -2,6 +2,8 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
+import sys
+sys.path.append('../')
 
 class TagOverlay(Gtk.Window):
 
@@ -10,7 +12,7 @@ class TagOverlay(Gtk.Window):
         self.set_border_width(20)
         self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
         self.set_resizable(False)
-
+        
         grid = Gtk.Grid()
         grid.set_column_spacing(10)
         grid.set_row_spacing(10)

@@ -1,3 +1,6 @@
+#!/usr/bin/env python2
+
+import Tag 
 
 class Workspace:
 
@@ -5,6 +8,7 @@ class Workspace:
         self.name = name
         self.path = path
         self.sessions = []
+        self.tagContainer = Tag.TagContainer() 
         self.pcap = ''
         #os.mkdir()
 
