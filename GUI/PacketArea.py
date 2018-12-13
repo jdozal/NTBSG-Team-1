@@ -29,6 +29,9 @@ class PacketArea:
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         hbox.store = Gtk.TreeStore(str, bool)
 
+        print(workspace.sessions[0].isEmpty())
+           #code = self.createPDMLview(workspace.sessions[0].getLatest())
+
         # for i in range(len(code)):
         #         #     piter = hbox.store.append(None, [code[i][0], False])
         #         #
@@ -70,3 +73,24 @@ class PacketArea:
         btnBox.pack_end(removeBtn, True, True, 1)
 
         return packetTab
+
+    def createPDMLview(self, pdml):
+        fields = []
+        protocols = []
+        packets = []
+        import xml.etree.ElementTree as ET
+        tree = ET.parse(pdml.name)
+        root = tree.getroot()
+        for packet in root.findall("packet"):
+            proto = packet.find("proto")
+            protocols = []
+            if(proto != null):
+                protocols.append(proto)
+                fields = []
+                for field in proto.findall("field"):
+                    fields.append(field)
+                protocols.append(fields)
+            packets.append(protocols)
+            #print name.text
+            #for char in actor.findall('{http://characters.example.com}character'):
+             #   print ' |-->', char.text

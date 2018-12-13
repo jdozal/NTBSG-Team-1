@@ -13,3 +13,9 @@ class Session:
 
 	def getLatest(self):
 		return self.pdmls[len(self.pdmls)-1]
+
+	def isEmpty(self):
+		if(len(self.pdmls)==0):
+			return True
+		else:
+			False
