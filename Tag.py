@@ -44,3 +44,9 @@ class TagContainer:
     
     def getList(self):
         return self.tagList
+    
+    def getTag(self, name):
+        for tag in self.tagList:
+            if tag.name == name:
+                return tag
+        return -1

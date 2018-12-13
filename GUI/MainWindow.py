@@ -14,8 +14,8 @@ class MainWindow(Gtk.Window):
 
     def __init__(self, workspace):
         Gtk.Window.__init__(self, title="NTSBG")
-        currentWorkspace = workspace
-        print("workspace name= " + currentWorkspace.name)
+        self.currentWorkspace = workspace
+        print("workspace name= " + self.currentWorkspace.name)
 
         self.set_border_width(10)
         # self.set_default_size(s.get_width(), s.get_height())
@@ -33,7 +33,7 @@ class MainWindow(Gtk.Window):
         listMain.add(stages)
 
         # initialize views
-        views = self.viewsDesign(currentWorkspace)
+        views = self.viewsDesign(self.currentWorkspace)
         listMain.add(views)
 
     def header(self):
@@ -214,10 +214,12 @@ class MainWindow(Gtk.Window):
         savedCombo.pack_start(renderer_text, True)
         savedCombo.add_attribute(renderer_text, "text", 0)
 
+        savedCombo.connect("changed", self.on_tag_changed)
+        
         # text boxes
-        nameEntry = Gtk.Entry()
-        fieldEntry = Gtk.Entry()
-        descriptionEntry = Gtk.Entry()
+        self.nameEntry = Gtk.Entry()
+        self.fieldEntry = Gtk.Entry()
+        self.descriptionEntry = Gtk.Entry()
 
         # buttons
         buttonBox = Gtk.Box()
@@ -236,9 +238,9 @@ class MainWindow(Gtk.Window):
 
         rightBox = Gtk.VBox()
         rightBox.pack_start(savedCombo, True, True, 5)
-        rightBox.pack_start(nameEntry, True, True, 0)
-        rightBox.pack_start(fieldEntry, True, True, 0)
-        rightBox.pack_start(descriptionEntry, True, True, 0)
+        rightBox.pack_start(self.nameEntry, True, True, 0)
+        rightBox.pack_start(self.fieldEntry, True, True, 0)
+        rightBox.pack_start(self.descriptionEntry, True, True, 0)
         rightBox.pack_start(buttonBox, True, True, 0)
 
         # adding to grid
@@ -263,6 +265,18 @@ class MainWindow(Gtk.Window):
         win = OpenSession()
         win.show_all()
 
+    def on_tag_changed(self, widget):
+        tree_iter = widget.get_active_iter()
+        if tree_iter is not None:
+            model = widget.get_model()
+            currTag = model[tree_iter][0]
+            print("Selected: tag=%s" % currTag)
+            taglist = self.currentWorkspace.tagContainer
+            tagObj = taglist.getTag(currTag)
+            self.nameEntry.set_text(tagObj.name)
+            self.fieldEntry.set_text(tagObj.field)
+            self.descriptionEntry.set_text(tagObj.annotation)
+        
 
 work = [["Session A",
               ["State 1", False],
