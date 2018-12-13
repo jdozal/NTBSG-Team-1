@@ -195,7 +195,8 @@ class PDMLview:
         grid.attach(fieldArea,0,1,1,1)
 
         # Message Type Area
-        messTypeArea = MessageTypeArea.Tabs()
+        mta = MessageTypeArea.MessageTypeArea()
+        messTypeArea = mta.Tabs()
         grid.attach(messTypeArea,2,1,1,1)
 
         buttonBox = Gtk.VBox()
