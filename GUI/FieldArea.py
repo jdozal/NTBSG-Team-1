@@ -53,8 +53,8 @@ class FieldArea:
 
         # Creating the ListStore model
         # field list was hardcoded
-        # for field_ref in fieldList:
-        #     self.fieldListStore.append(list(field_ref))
+        for field_ref in self.fieldList:
+            self.fieldListStore.append(list(field_ref))
 
         # Creating the treeview
         treeview = Gtk.TreeView(self.fieldListStore)
