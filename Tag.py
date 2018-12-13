@@ -5,7 +5,7 @@ Created on Sun Dec  9 21:09:01 2018
 
 @author: Jessica Dozal
 """
-
+# Tag
 class Tag:
     
     def __init__(self, name, field, annotation):
