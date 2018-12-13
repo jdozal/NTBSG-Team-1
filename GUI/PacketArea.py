@@ -9,6 +9,9 @@ Created on Fri Oct 12 11:15:16 2018
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
+import sys
+sys.path.append('../')
+from Workspace import Workspace 
 
 code = [["Frame 718: frame, eth, ip, tcp",
         ["Frame 718: 74 bytes on wire (592 bits), 74 bytes captured (592 bits) on interface 0", False],
@@ -20,7 +23,10 @@ code = [["Frame 718: frame, eth, ip, tcp",
         ["Frame 769: frame, eth, ip, tcp, http", ["code", False]]
         ]
 
-def Tabs():
+currentWorkspace = Workspace("","")
+
+def Tabs(workspace):
+    currentWorkspace = workspace
     packetTab = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
     grid = Gtk.Grid()
     packetTab.pack_start(grid, True, True, 5)

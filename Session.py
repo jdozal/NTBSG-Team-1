@@ -10,3 +10,6 @@ class Session:
 
 	def addPDML(self, pdml):
 		self.pdmls.append(pdml)
+
+	def getLatest(self):
+		return self.pdmls[len(self.pdmls)-1]
