@@ -86,8 +86,8 @@ class PDMLview(Gtk.Window):
         #header.set_homogeneous(True)
 
         # text boxes
-        newStateNameEntry = Gtk.Entry()
-        newStateNameEntry.set_placeholder_text("New PDML State Name")
+        self.newStateNameEntry = Gtk.Entry()
+        self.newStateNameEntry.set_placeholder_text("New PDML State Name")
 
         renameCurrentEntry = Gtk.Entry()
         renameCurrentEntry.set_placeholder_text("Rename Current PDML State Name")
@@ -100,13 +100,17 @@ class PDMLview(Gtk.Window):
         deleteCurrentBtn = Gtk.Button(label="Delete Current\nPDML State")
         renameCurrentBtn = Gtk.Button(label="Rename Current\nPDML State")
 
-        header.add(newStateNameEntry)
+        header.add(self.newStateNameEntry)
         header.add(saveNewBtn)
         header.add(saveCurrentBtn)
         header.add(closeCurrentBtn)
         header.add(deleteCurrentBtn)
         header.add(renameCurrentEntry)
         header.add(renameCurrentBtn)
+        
+        saveNewBtn.connect("clicked", self.on_save_clicked, self.currentWorkspace)
+        saveCurrentBtn.connect("clicked", self.on_savecurrent_clicked, self.currentWorkspace)
+
 
         return header
 
@@ -202,6 +206,33 @@ class PDMLview(Gtk.Window):
         self.pckt.update_pdml()
         self.field.update_fields()
 
+        
+    def on_save_clicked(self, widget, workspace):
+        textnew = self.newStateNameEntry.get_text()
+        #print(textnew)
+        dissector = Dissector.Dissector("", "")
+        pdml = PDML.PDML()
+        namePDML = dissector.convert(workspace.pcap, workspace.path)
+        pdml.setName(namePDML)
+        pdml.parse(workspace.path, "-1")
+        pdml.setName(textnew)
+        workspace.sessions[0].addPDML(pdml)
+        self.listSessions = self.getListSession()
+        #self.sessionNum = self.sessionNum + 1;
+        self.mainwindow.on_session_update()
+        
+
+    def on_savecurrent_clicked(self, widget, workspace):
+        dissector = Dissector.Dissector("", "")
+        pdml = PDML.PDML()
+        namePDML = dissector.convert(workspace.pcap, workspace.path)
+        pdml.setName(namePDML)
+        pdml.parse(workspace.path, "-1")
+        pdml.setName("State" + str(self.sessionNum))
+        workspace.sessions[0].addPDML(pdml)
+        self.listSessions = self.getListSession()
+        self.sessionNum = self.sessionNum + 1;
+        self.mainwindow.on_session_update()
         
     def bottomPDMLView(self):
         box = Gtk.Box()
