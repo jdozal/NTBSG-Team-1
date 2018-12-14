@@ -13,6 +13,16 @@ import sys
 sys.path.append('../')
 from Workspace import Workspace
 
+code = [["Frame 718: frame, eth, ip, tcp",
+        ["Frame 718: 74 bytes on wire (592 bits), 74 bytes captured (592 bits) on interface 0", False],
+        ["Ethernet II, Src: Elitegro_dd:12:cd (00:19:21:dd:12:cd), Dst: Broadcom_de:ad:05 (00:10:18:de:ad:05)", False],
+        ["Internet Control Message Protocol", False],
+        ["Transmission Control Protocol, Src Port: 55394 (55394), Dst Port: 80, Seq: 0, Len: 0", False]],
+        ["Frame 767: frame, eth, ip, tcp", ["code", False]],
+        ["Frame 768: frame, eth, ip, tcp", ["code", False]],
+        ["Frame 769: frame, eth, ip, tcp, http", ["code", False]]
+        ]
+
 class PacketArea(Gtk.Window):
 
     # def __init__(self, workspace):
@@ -39,45 +49,57 @@ class PacketArea(Gtk.Window):
         #hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         store = Gtk.TreeStore(str)
 
-        if (workspace.sessions[0].isEmpty()):
-            code = []
-        else:
-            code = self.createPDMLview(workspace.sessions[0].getLatest())
+        # if (workspace.sessions[0].isEmpty()):
+        #     code = []
+        # else:
+        #     code = self.createPDMLview(workspace.sessions[0].getLatest())
+
+        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        hbox.store = Gtk.TreeStore(str, bool)
 
         for i in range(len(code)):
-            piter = store.append(None, [code[i][0]])
+            piter = hbox.store.append(None, [code[i][0], False])
+            j=1
+            while j < len(code[i]):
+                hbox.store.append(piter, code[i][j])
+                j += 1
+
+        # for i in range(len(code)):
+        #     piter = store.append(None, [code[i][0]])
             
-            for j in range(len(code[i])):
-                store.append(piter, [code[i][j]])
+        #     for j in range(len(code[i])):
+        #         store.append(piter, [code[i][j]])
                 
                 # for k in range(len(code[i][j])):
                 #     store.append(ppiter, [code[i][j][k]])
                     
-        self.print_tree_store(store)
+        view = Gtk.TreeView()
+        view.set_model(hbox.store)
+        #self.print_tree_store(store)
 
-        view = Gtk.TreeView(store)
+        #view = Gtk.TreeView(store)
         #view.set_model(store)
 
-        col0 = Gtk.TreeViewColumn("PDML")
-        self.cell0 = Gtk.CellRendererText()
-        view.append_column(col0)
-        col0.pack_start(self.cell0, False)
-        col0.set_attributes(self.cell0, text=0)
+        # col0 = Gtk.TreeViewColumn("PDML")
+        # self.cell0 = Gtk.CellRendererText()
+        # view.append_column(col0)
+        # col0.pack_start(self.cell0, False)
+        # col0.set_attributes(self.cell0, text=0)
 
 
 
 
-        # renderer = Gtk.CellRendererToggle()
-        # column_in_size = Gtk.TreeViewColumn("", renderer, active=1)
-        # view.append_column(column_in_size)
+        renderer = Gtk.CellRendererToggle()
+        column_in_size = Gtk.TreeViewColumn("", renderer, active=1)
+        view.append_column(column_in_size)
 
-        # renderer_frame = Gtk.CellRendererText()
-        # column_frame = Gtk.TreeViewColumn("", renderer_frame, text=1)
-        # view.append_column(column_frame)
+        renderer_frame = Gtk.CellRendererText()
+        column_frame = Gtk.TreeViewColumn("Frame", renderer_frame, text=0)
+        view.append_column(column_frame)
 
-        # renderer_in_size = Gtk.CellRendererText()
-        # column_in_size = Gtk.TreeViewColumn("Size", renderer_in_size, text=1)
-        # view.append_column(column_in_size)
+        renderer_in_size = Gtk.CellRendererText()
+        column_in_size = Gtk.TreeViewColumn("Size", renderer_in_size, text=1)
+        view.append_column(column_in_size)
 
         # initializing box where packet will be
         scroll_window = Gtk.ScrolledWindow()
