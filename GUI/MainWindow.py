@@ -17,6 +17,7 @@ class MainWindow(Gtk.Window):
         self.currentWorkspace = workspace
         print("workspace name= " + self.currentWorkspace.name)
 
+        self.pdml = PDMLview.PDMLview()
         self.set_border_width(10)
         # self.set_default_size(s.get_width(), s.get_height())
 
@@ -106,8 +107,7 @@ class MainWindow(Gtk.Window):
         views = Gtk.ListBoxRow()
 
         sessionsView = self.sessionsDesign(currentWorkspace)
-        self.pdml = PDMLview.PDMLview()
-        pdmlView = self.pdml.pdmlDesign(currentWorkspace)
+        pdmlView = self.pdml.pdmlDesign(currentWorkspace, self)
         print("THIS IS THE CURRENT LIST ALV")
         self.sessionList = self.pdml.getListSession()
         views.add(sessionsView)
@@ -294,11 +294,9 @@ class MainWindow(Gtk.Window):
             tagStr = currTag.name
             self.tag_store.append([tagStr])
         self.savedCombo = Gtk.ComboBox().new_with_model(self.tag_store)
-        self.on_session_update()
         
     def on_session_update(self):
-        
-        
+             
         work = self.pdml.getListSession()
         self.hbox.store.clear()
         for i in range(len(work)):
@@ -313,12 +311,9 @@ class MainWindow(Gtk.Window):
         self.view.set_model(self.hbox.store)
     
             
-work = [["Session A",
+work = [["Session 1",
               ["State 1", False],
-              ["State 2", False]],
-             ["Session B", ["stage", False]],
-             ["Session C", ["stage", False]]
-             ]
+              ]]
 
     
 

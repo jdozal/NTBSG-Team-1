@@ -27,7 +27,8 @@ class PDMLview(Gtk.Window):
     sessionNum = 1
     
 
-    def pdmlDesign(self, workspace):
+    def pdmlDesign(self, workspace, mainwindow):
+        self.mainwindow = mainwindow
         self.currentWorkspace = workspace
         # Starting box for pdmlView
         pdmlBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
@@ -192,6 +193,7 @@ class PDMLview(Gtk.Window):
         workspace.sessions[0].addPDML(pdml)
         self.listSessions = self.getListSession()
         self.sessionNum = self.sessionNum + 1;
+        self.mainwindow.on_session_update()
 
         
 
