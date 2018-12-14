@@ -192,7 +192,7 @@ class PDMLview(Gtk.Window):
         namePDML = dissector.convert(workspace.pcap, workspace.path)
         pdml.setName(namePDML)
         pdml.parse(workspace.path, filterT)
-        pdml.setName("Stage" + str(self.sessionNum))
+        pdml.setName("State" + str(self.sessionNum))
 
         workspace.sessions[0].addPDML(pdml)
         self.listSessions = self.getListSession()
