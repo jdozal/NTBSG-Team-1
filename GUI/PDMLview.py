@@ -63,11 +63,11 @@ class PDMLview(Gtk.Window):
         # pdmlListBox.add(grid)
 
         # packet area
-        pckt = PacketArea.PacketArea()
-        packetArea = pckt.Tabs(self.currentWorkspace)
+        self.pckt = PacketArea.PacketArea()
+        self.packetArea = self.pckt.Tabs(self.currentWorkspace)
         #grid.add(packetArea)
 
-        pdmlListBox.add(packetArea)
+        pdmlListBox.add(self.packetArea)
 
         bottomPart = self.bottomPDMLView()
         pdmlListBox.add(bottomPart)
@@ -194,9 +194,10 @@ class PDMLview(Gtk.Window):
         self.listSessions = self.getListSession()
         self.sessionNum = self.sessionNum + 1;
         self.mainwindow.on_session_update()
+        print(self.pckt.createPDMLview(workspace.sessions[0].getLatest()))
+        self.pckt.update_pdml()
 
         
-
     def bottomPDMLView(self):
         box = Gtk.Box()
         grid = Gtk.Grid()

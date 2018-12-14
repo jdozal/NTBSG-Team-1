@@ -36,7 +36,7 @@ class PacketArea(Gtk.Window):
     #     #win.show()
 
     def Tabs(self, workspace):
-        currentWorkspace = workspace
+        self.currentWorkspace = workspace
         packetTab = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         grid = Gtk.Grid()
         packetTab.pack_start(grid, True, True, 5)
@@ -53,15 +53,15 @@ class PacketArea(Gtk.Window):
         #     code = []
         # else:
         #     code = self.createPDMLview(workspace.sessions[0].getLatest())
-
-        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        hbox.store = Gtk.TreeStore(str, bool)
+        
+        self.hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        self.hbox.store = Gtk.TreeStore(str, bool)
 
         for i in range(len(code)):
-            piter = hbox.store.append(None, [code[i][0], False])
+            piter = self.hbox.store.append(None, [code[i][0], False])
             j=1
             while j < len(code[i]):
-                hbox.store.append(piter, code[i][j])
+                self.hbox.store.append(piter, code[i][j])
                 j += 1
 
         # for i in range(len(code)):
@@ -73,8 +73,8 @@ class PacketArea(Gtk.Window):
                 # for k in range(len(code[i][j])):
                 #     store.append(ppiter, [code[i][j][k]])
                     
-        view = Gtk.TreeView()
-        view.set_model(hbox.store)
+        self.view = Gtk.TreeView()
+        self.view.set_model(self.hbox.store)
         #self.print_tree_store(store)
 
         #view = Gtk.TreeView(store)
@@ -91,21 +91,21 @@ class PacketArea(Gtk.Window):
 
         renderer = Gtk.CellRendererToggle()
         column_in_size = Gtk.TreeViewColumn("", renderer, active=1)
-        view.append_column(column_in_size)
+        self.view.append_column(column_in_size)
 
         renderer_frame = Gtk.CellRendererText()
         column_frame = Gtk.TreeViewColumn("Frame", renderer_frame, text=0)
-        view.append_column(column_frame)
+        self.view.append_column(column_frame)
 
         renderer_in_size = Gtk.CellRendererText()
         column_in_size = Gtk.TreeViewColumn("Size", renderer_in_size, text=1)
-        view.append_column(column_in_size)
+        self.view.append_column(column_in_size)
 
         # initializing box where packet will be
         scroll_window = Gtk.ScrolledWindow()
         grid.attach_next_to(scroll_window, nameLabel, Gtk.PositionType.BOTTOM, 1, 1)
-        scroll_window.add(view)
-        view.show()
+        scroll_window.add(self.view)
+        self.view.show()
 
         scroll_window.set_min_content_width(1200)
         scroll_window.set_min_content_height(200)
@@ -127,7 +127,7 @@ class PacketArea(Gtk.Window):
 
     def print_rows(self, store, treeiter, indent):
         while treeiter is not None:
-            print(indent + str(store[treeiter][:]))
+            #print(indent + str(store[treeiter][:]))
             if store.iter_has_child(treeiter):
                 childiter = store.iter_children(treeiter)
                 self.print_rows(store, childiter, indent + "\t")
@@ -171,6 +171,31 @@ class PacketArea(Gtk.Window):
 
         return packets
 
+
+    def update_pdml(self):
+        code = self.createPDMLview(self.currentWorkspace.sessions[0].getLatest())
+        
+        self.hbox.store.clear()
+
+        for i in range(len(code)):
+            piter = self.hbox.store.append(None, [code[i][0], False])
+            j=1
+            while j < len(code[i]):
+                self.hbox.store.append(piter, code[i][j])
+                j += 1
+
+        # for i in range(len(code)):
+        #     piter = store.append(None, [code[i][0]])
+            
+        #     for j in range(len(code[i])):
+        #         store.append(piter, [code[i][j]])
+                
+                # for k in range(len(code[i][j])):
+                #     store.append(ppiter, [code[i][j][k]])
+                    
+        self.view = Gtk.TreeView()
+        self.view.set_model(self.hbox.store)
+        
         #for i in pdml.packetList:
             #packets.append(pdml.packetList[i].plainXML)
         #print(pdml.packetList[0].plainXML)
