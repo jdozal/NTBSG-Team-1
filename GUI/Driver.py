@@ -15,7 +15,7 @@ import PCAPtoPDMLController
 import Session 
 import shutil 
 
-workspace = Workspace.Workspace('','')
+workspace = Workspace.Workspace('','../')
 session = Session.Session("Session1", "original PDML", workspace.path)
 workspace.addSession(session)
 controller = PCAPtoPDMLController.PCAPtoPDMLController()
