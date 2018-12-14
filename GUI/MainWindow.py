@@ -202,19 +202,19 @@ class MainWindow(Gtk.Window):
         descriptionLabel = Gtk.Label("Tag Description")
 
         # drop down menu
-        tagListWorkspace = workspace.tagContainer
-        tag_store = Gtk.ListStore(str)
-        for currTag in tagListWorkspace.tagList:
+        self.tagListWorkspace = workspace.tagContainer
+        self.tag_store = Gtk.ListStore(str)
+        for currTag in self.tagListWorkspace.tagList:
             tagStr = currTag.name
             print(tagStr)
-            tag_store.append([tagStr])
-        savedCombo = Gtk.ComboBox().new_with_model(tag_store)
+            self.tag_store.append([tagStr])
+        self.savedCombo = Gtk.ComboBox().new_with_model(self.tag_store)
         
         renderer_text = Gtk.CellRendererText()
-        savedCombo.pack_start(renderer_text, True)
-        savedCombo.add_attribute(renderer_text, "text", 0)
+        self.savedCombo.pack_start(renderer_text, True)
+        self.savedCombo.add_attribute(renderer_text, "text", 0)
 
-        savedCombo.connect("changed", self.on_tag_changed)
+        self.savedCombo.connect("changed", self.on_tag_changed)
         
         # text boxes
         self.nameEntry = Gtk.Entry()
@@ -237,7 +237,7 @@ class MainWindow(Gtk.Window):
         leftBox.add(descriptionLabel)
 
         rightBox = Gtk.VBox()
-        rightBox.pack_start(savedCombo, True, True, 5)
+        rightBox.pack_start(self.savedCombo, True, True, 5)
         rightBox.pack_start(self.nameEntry, True, True, 0)
         rightBox.pack_start(self.fieldEntry, True, True, 0)
         rightBox.pack_start(self.descriptionEntry, True, True, 0)
@@ -287,8 +287,11 @@ class MainWindow(Gtk.Window):
         self.tagObj.name = currName
         self.tagObj.field = currField
         self.tagObj.annotation = currAnnot
-        print(self.tagObj.field)
-        
+        self.tag_store.clear()
+        for currTag in self.tagListWorkspace.tagList:
+            tagStr = currTag.name
+            self.tag_store.append([tagStr])
+        self.savedCombo = Gtk.ComboBox().new_with_model(self.tag_store)
             
 work = [["Session A",
               ["State 1", False],
