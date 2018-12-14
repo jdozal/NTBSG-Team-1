@@ -194,10 +194,11 @@ class PacketArea(Gtk.Window):
 
         for i in range(len(code)):
             piter = self.hbox.store.append(None, [code[i][0], False])
-            j=0
+            j=1
             while j < len(code[i]):
-                 self.hbox.store.append(piter, [code[i][j], False])
-                 j += 1
+                str1 = ''.join(code[i][j])
+                self.hbox.store.append(piter, [str1, False])
+                j += 1
 
         # for i in range(len(code)):
         #     piter = store.append(None, [code[i][0]])
