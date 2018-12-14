@@ -27,8 +27,10 @@ class PDML:
     def parse(self, path, filterT):
         print(path)
         tree = ET.parse(path + "/Session1/" + self.name)
-        newFile = self.filterOut(path, filterT, tree)
-        tree = ET.parse(newFile)
+        if(filterT is not ""):
+            print("enter here")
+            newFile = self.filterOut(path, filterT, tree)
+            tree = ET.parse(newFile)
         root = tree.getroot()
         # Getting all the packets 
         for child in root:

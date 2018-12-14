@@ -185,6 +185,8 @@ class PDMLview(Gtk.Window):
             model = combo.get_model()
             filterT = model[tree_iter][0]
             #print("Selected: filter=%s" % filterT)
+        else: 
+            filterT = ""
         dissector = Dissector.Dissector("", "")
         pdml = PDML.PDML()
         namePDML = dissector.convert(workspace.pcap, workspace.path)

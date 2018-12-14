@@ -179,9 +179,9 @@ class PacketArea(Gtk.Window):
         
         for packet in pdml.packetList:
             protolist = packet.getProtocolsType()
+            output.append(protolist)
             if protolist:
-                protolist.append(packet.getProtocolsShowname())
-                output.append(protolist)
+                output.append(packet.getProtocolsShowname())
         
         return output
 
@@ -191,11 +191,14 @@ class PacketArea(Gtk.Window):
         
         self.hbox.store.clear()
 
-        for i in range(len(code)):
-            piter = self.hbox.store.append(None, [code[i][0], False])
+        for i in range(len(code)-1):
+            str0 = "Protocols: "
+            str1 = ', '.join(code[i])
+            str1 = str0 + str1
+            piter = self.hbox.store.append(None, [str1, False])
             j=1
-            while j < len(code[i]):
-                str1 = ''.join(code[i][j])
+            while j < len(code[i+1]):
+                str1 = ''.join(code[i+1][j])
                 self.hbox.store.append(piter, [str1, False])
                 j += 1
 
