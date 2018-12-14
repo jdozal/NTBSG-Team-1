@@ -182,7 +182,6 @@ class PacketArea(Gtk.Window):
             if protolist:
                 protolist.append(packet.getProtocolsShowname())
                 output.append(protolist)
-                
         
         return output
 

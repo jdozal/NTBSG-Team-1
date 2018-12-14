@@ -51,6 +51,8 @@ class PDMLview(Gtk.Window):
         # Adding into primary list box
         pdmlListBox.add(titleBox)
 
+        self.field = FieldArea.FieldArea()
+
         # pdml menu
         menu = self.pdmlMenu()
         pdmlListBox.add(menu)
@@ -196,6 +198,7 @@ class PDMLview(Gtk.Window):
         self.mainwindow.on_session_update()
         print(self.pckt.createPDMLview(workspace.sessions[0].getLatest()))
         self.pckt.update_pdml()
+        self.field.update_fields()
 
         
     def bottomPDMLView(self):
@@ -204,9 +207,8 @@ class PDMLview(Gtk.Window):
         box.add(grid)
 
         # Field Area
-        field = FieldArea.FieldArea()
-        fieldArea = field.Tabs()
-        grid.attach(fieldArea,0,1,1,1)
+        self.fieldArea = self.field.Tabs()
+        grid.attach(self.fieldArea,0,1,1,1)
 
         # Message Type Area
         mta = MessageTypeArea.MessageTypeArea()

@@ -57,27 +57,27 @@ class FieldArea:
             self.fieldListStore.append(list(field_ref))
 
         # Creating the treeview
-        treeview = Gtk.TreeView(self.fieldListStore)
+        self.treeview = Gtk.TreeView(self.fieldListStore)
 
         # adding checkbox
         renderer_toggle = Gtk.CellRendererToggle()
         renderer_toggle.connect("toggled", self.on_cell_toggled)
 
         column_toggle = Gtk.TreeViewColumn(" ", renderer_toggle, active=0)
-        treeview.append_column(column_toggle)
+        self.treeview.append_column(column_toggle)
 
         # adding other columns
         for i, column_title in enumerate(self.titles):
             renderer = Gtk.CellRendererText()
             column = Gtk.TreeViewColumn(column_title, renderer, text=i+1)
-            treeview.append_column(column)
+            self.treeview.append_column(column)
 
         scrollable_treelist = Gtk.ScrolledWindow()
         scrollable_treelist.set_min_content_width(500)
         scrollable_treelist.set_min_content_height(300)
 
         #scrollable_treelist.set_vexpand(True)
-        scrollable_treelist.add(treeview)
+        scrollable_treelist.add(self.treeview)
 
         grid.attach(scrollable_treelist, 0, 0, 2, 2)
         #print(fieldBox.size_request().width)
@@ -91,3 +91,33 @@ class FieldArea:
         grid.attach_next_to(editableFields, selectAll, Gtk.PositionType.RIGHT, 1, 1)
 
         return fieldAreaBox
+    
+    def update_fields(self):
+
+        self.fieldList = [(False, 'testing this', 'Type 8 (Echo(ping) request)', '1', 34, '8', '08', 2),
+                     (False, 'icmp.code', 'Code 0', '1', 35, '0x00', '00', 2),
+                     (False, 'icmp.checksum', 'Checksum: 0x6861 (correct)', '0x00', 36, '0x6861', '6861', 0),
+                     (False, 'icmp.ident', 'Identifier: 0x809e', '2', 38, '0x809e', '809e', 2),
+                     (False, 'icmp.seq', 'Sequence number: 0x0f00', '2', 40, '0x0f00', '0f00', 2)]
+        self.fieldListStore.clear()
+
+        
+        for field_ref in self.fieldList:
+            self.fieldListStore.append(list(field_ref))
+
+        # Creating the treeview
+        self.treeview = Gtk.TreeView(self.fieldListStore)
+
+        # adding checkbox
+        renderer_toggle = Gtk.CellRendererToggle()
+        renderer_toggle.connect("toggled", self.on_cell_toggled)
+
+        column_toggle = Gtk.TreeViewColumn(" ", renderer_toggle, active=0)
+        self.treeview.append_column(column_toggle)
+
+        # adding other columns
+        for i, column_title in enumerate(self.titles):
+            renderer = Gtk.CellRendererText()
+            column = Gtk.TreeViewColumn(column_title, renderer, text=i+1)
+            self.treeview.append_column(column)
+        
