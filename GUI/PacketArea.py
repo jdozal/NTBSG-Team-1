@@ -108,7 +108,7 @@ class PacketArea(Gtk.Window):
         self.view.show()
 
         scroll_window.set_min_content_width(1200)
-        scroll_window.set_min_content_height(200)
+        scroll_window.set_min_content_height(350)
 
         # right hand side buttons
         btnBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -204,10 +204,11 @@ class PacketArea(Gtk.Window):
             str1 = ', '.join(code[i][0])
             str1 = str0 + str1
             piter = self.hbox.store.append(None, [str1, False])
-            j=0
+            j=1
             while j < len(code[i]):
-                str1 = ''.join(code[i][j])
+                #str1 = ''.join(code[i][j])
                 for item in code[i][j]:
+                    print(item)
                     self.hbox.store.append(piter, [item, False])
                 j += 1
 
