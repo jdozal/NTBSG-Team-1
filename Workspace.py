@@ -17,7 +17,16 @@ class Workspace:
 
     def setPCAP(self, pcap):
         self.pcap = pcap
-
+        
+    def getListSession(self):
+        a = [[0] * len(self.sessions)] * len(self.sessions)
+        i = 0
+        for session in self.sessions:
+            print(i)
+            a[i][0] = session.name
+            for pdml in session.pdmls:
+                a[i].append([pdml.name, False])
+            i = i + 1
 
 	# @property
  #    def name(self):

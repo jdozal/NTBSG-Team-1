@@ -23,8 +23,7 @@ class PCAPtoPDMLController:
         #self.pdml.setName(namePDML)
         #self.pdml.parse(workspace.path)
         from MainWindow import MainWindow
-        window = MainWindow(workspace)
+        self.window = MainWindow(workspace)
         #window.connect("destroy", Gtk.main_quit)
-        window.maximize()
-        window.show_all()
-        
+        self.window.maximize()
+        self.window.show_all()

@@ -14,13 +14,15 @@ import Workspace
 import PCAPtoPDMLController
 import Session 
 import shutil 
+import PCAP
 
-workspace = Workspace.Workspace('','../')
+workspace = Workspace.Workspace('Workspace Name','../')
 session = Session.Session("Session1", "original PDML", workspace.path)
 workspace.addSession(session)
 controller = PCAPtoPDMLController.PCAPtoPDMLController()
 pathPCAP = "test.pcap"
-controller.setPCAP(pathPCAP)
+pcap = PCAP.PCAP(pathPCAP,pathPCAP)
+controller.setPCAP(pcap)
 #controller.callConversion(workspace)
 from MainWindow import MainWindow
 window = MainWindow(workspace)

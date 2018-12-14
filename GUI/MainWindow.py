@@ -35,6 +35,7 @@ class MainWindow(Gtk.Window):
         # initialize views
         views = self.viewsDesign(self.currentWorkspace)
         listMain.add(views)
+        
 
     def header(self):
         hb = Gtk.HeaderBar()
@@ -105,9 +106,9 @@ class MainWindow(Gtk.Window):
         views = Gtk.ListBoxRow()
 
         sessionsView = self.sessionsDesign(currentWorkspace)
-        pdml = PDMLview.PDMLview()
-        pdmlView = pdml.pdmlDesign(currentWorkspace)
-
+        self.pdml = PDMLview.PDMLview()
+        pdmlView = self.pdml.pdmlDesign(currentWorkspace)
+        self.sessionList = self.pdml.getListSession()
         views.add(sessionsView)
         sessionsView.pack_start(pdmlView, True, True, 0)
 
@@ -150,33 +151,33 @@ class MainWindow(Gtk.Window):
         # workspaceLabel.set_sensitive(False)
         # grid.add(workspaceLabel)
 
-        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        hbox.store = Gtk.TreeStore(str, bool)
+        self.hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        self.hbox.store = Gtk.TreeStore(str, bool)
 
         for i in range(len(work)):
-            piter = hbox.store.append(None, [work[i][0], False])
+            piter = self.hbox.store.append(None, [work[i][0], False])
 
             j = 1
             while j < len(work[i]):
-                hbox.store.append(piter, work[i][j])
+                self.hbox.store.append(piter, work[i][j])
                 j += 1
 
-        view = Gtk.TreeView()
-        view.set_model(hbox.store)
+        self.view = Gtk.TreeView()
+        self.view.set_model(self.hbox.store)
 
         renderer = Gtk.CellRendererToggle()
         column_in_size = Gtk.TreeViewColumn("", renderer, active=1)
-        view.append_column(column_in_size)
+        self.view.append_column(column_in_size)
 
         renderer_frame = Gtk.CellRendererText()
-        column_frame = Gtk.TreeViewColumn("Workspace X", renderer_frame, text=0)
-        view.append_column(column_frame)
+        column_frame = Gtk.TreeViewColumn(self.currentWorkspace.name, renderer_frame, text=0)
+        self.view.append_column(column_frame)
 
         # initializing box where packet will be
         scroll_window = Gtk.ScrolledWindow()
         grid.add(scroll_window)
 
-        scroll_window.add(view)
+        scroll_window.add(self.view)
 
         scroll_window.set_min_content_width(200)
         scroll_window.set_min_content_height(200)
@@ -292,6 +293,29 @@ class MainWindow(Gtk.Window):
             tagStr = currTag.name
             self.tag_store.append([tagStr])
         self.savedCombo = Gtk.ComboBox().new_with_model(self.tag_store)
+        self.on_session_update()
+        
+    def on_session_update(self):
+        
+        work = [["Session BCDF",
+              ["State 1", False],
+              ["State 2", False]],
+             ["Session B", ["stage", False]],
+             ["Session C", ["stage", False]]
+             ]      
+        
+        self.hbox.store.clear()
+        for i in range(len(work)):
+            piter = self.hbox.store.append(None, [work[i][0], False])
+
+            j = 1
+            while j < len(work[i]):
+                self.hbox.store.append(piter, work[i][j])
+                j += 1
+
+        self.view = Gtk.TreeView()
+        self.view.set_model(self.hbox.store)
+    
             
 work = [["Session A",
               ["State 1", False],
@@ -299,6 +323,8 @@ work = [["Session A",
              ["Session B", ["stage", False]],
              ["Session C", ["stage", False]]
              ]
+
+    
 
 # window = MainWindow(workspace)
 # window.connect("destroy", Gtk.main_quit)

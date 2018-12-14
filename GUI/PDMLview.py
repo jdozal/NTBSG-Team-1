@@ -23,9 +23,12 @@ import PDML
 class PDMLview(Gtk.Window):
 
     currentWorkspace = Workspace("","")
+    
+    sessionNum = 1
+    
 
     def pdmlDesign(self, workspace):
-        currentWorkspace = workspace
+        self.currentWorkspace = workspace
         # Starting box for pdmlView
         pdmlBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         pdmlBox.set_homogeneous(True)
@@ -52,7 +55,7 @@ class PDMLview(Gtk.Window):
         pdmlListBox.add(menu)
 
         # filter area
-        filterTab = self.filterArea(currentWorkspace)
+        filterTab = self.filterArea(self.currentWorkspace)
         pdmlListBox.add(filterTab)
         # grid.add(filterTab)
 
@@ -170,7 +173,7 @@ class PDMLview(Gtk.Window):
         applyFilterBtn.connect("clicked", self.on_filter_apply_clicked, savedFilters, currentWorkspace)
 
         filterListBox.add(lineBox)
-
+        
         return filterBox
 
     def on_filter_apply_clicked(self, widget, combo, workspace):
@@ -184,10 +187,14 @@ class PDMLview(Gtk.Window):
         namePDML = dissector.convert(workspace.pcap, workspace.path)
         pdml.setName(namePDML)
         pdml.parse(workspace.path, filterT)
-        workspace.sessions[0].addPDML(pdml)
+        pdml.setName("Stage" + str(self.sessionNum))
 
-        win = PacketArea(workspace)
-        win.show_all()
+        workspace.sessions[0].addPDML(pdml)
+        self.listSessions = self.getListSession()
+        self.sessionNum = self.sessionNum + 1;
+
+        #win = PacketArea(workspace)
+        #win.show_all()
 
         
 
@@ -214,4 +221,7 @@ class PDMLview(Gtk.Window):
         grid.attach(buttonBox, 1, 1, 1, 1)
 
         return box
+    
+    def getListSession(self):
+        self.currentWorkspace.getListSession()
 
