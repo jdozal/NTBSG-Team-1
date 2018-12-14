@@ -27,7 +27,7 @@ class PDML:
     def parse(self, path, filterT):
         print(path)
         tree = ET.parse(path + "/Session1/" + self.name)
-        if(filterT is not ""):
+        if(filterT != "-1"):
             print("enter here")
             newFile = self.filterOut(path, filterT, tree)
             tree = ET.parse(newFile)

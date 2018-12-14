@@ -192,6 +192,8 @@ class PacketArea(Gtk.Window):
         self.hbox.store.clear()
 
         for i in range(len(code)-1):
+            if(i%2 != 0):
+                continue
             str0 = "Protocols: "
             str1 = ', '.join(code[i])
             str1 = str0 + str1

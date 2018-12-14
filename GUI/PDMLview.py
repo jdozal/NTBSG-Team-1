@@ -186,7 +186,7 @@ class PDMLview(Gtk.Window):
             filterT = model[tree_iter][0]
             #print("Selected: filter=%s" % filterT)
         else: 
-            filterT = ""
+            filterT = "-1"
         dissector = Dissector.Dissector("", "")
         pdml = PDML.PDML()
         namePDML = dissector.convert(workspace.pcap, workspace.path)
