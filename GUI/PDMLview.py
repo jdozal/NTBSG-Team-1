@@ -220,5 +220,5 @@ class PDMLview(Gtk.Window):
         return box
     
     def getListSession(self):
-        self.currentWorkspace.getListSession()
+        return self.currentWorkspace.getListSession()
 

@@ -27,7 +27,8 @@ class Workspace:
             for pdml in session.pdmls:
                 a[i].append([pdml.name, False])
             i = i + 1
-
+            print(a)
+            return a
 	# @property
  #    def name(self):
  #        return self.__name

@@ -108,6 +108,7 @@ class MainWindow(Gtk.Window):
         sessionsView = self.sessionsDesign(currentWorkspace)
         self.pdml = PDMLview.PDMLview()
         pdmlView = self.pdml.pdmlDesign(currentWorkspace)
+        print("THIS IS THE CURRENT LIST ALV")
         self.sessionList = self.pdml.getListSession()
         views.add(sessionsView)
         sessionsView.pack_start(pdmlView, True, True, 0)
@@ -297,13 +298,8 @@ class MainWindow(Gtk.Window):
         
     def on_session_update(self):
         
-        work = [["Session BCDF",
-              ["State 1", False],
-              ["State 2", False]],
-             ["Session B", ["stage", False]],
-             ["Session C", ["stage", False]]
-             ]      
         
+        work = self.pdml.getListSession()
         self.hbox.store.clear()
         for i in range(len(work)):
             piter = self.hbox.store.append(None, [work[i][0], False])
