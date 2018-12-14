@@ -248,6 +248,9 @@ class MainWindow(Gtk.Window):
         grid.attach_next_to(leftBox, tagLabel, Gtk.PositionType.BOTTOM, 1, 1)
         grid.attach_next_to(rightBox, leftBox, Gtk.PositionType.RIGHT, 1, 1)
 
+
+        updateBtn.connect("clicked", self.on_tag_update)
+
         return tagAreaTab
 
     def on_new_session_clicked(self, widget):
@@ -272,12 +275,21 @@ class MainWindow(Gtk.Window):
             currTag = model[tree_iter][0]
             print("Selected: tag=%s" % currTag)
             taglist = self.currentWorkspace.tagContainer
-            tagObj = taglist.getTag(currTag)
-            self.nameEntry.set_text(tagObj.name)
-            self.fieldEntry.set_text(tagObj.field)
-            self.descriptionEntry.set_text(tagObj.annotation)
+            self.tagObj = taglist.getTag(currTag)
+            self.nameEntry.set_text(self.tagObj.name)
+            self.fieldEntry.set_text(self.tagObj.field)
+            self.descriptionEntry.set_text(self.tagObj.annotation)
         
-
+    def on_tag_update(self, widget):
+        currName = self.nameEntry.get_text()
+        currField = self.fieldEntry.get_text()
+        currAnnot = self.descriptionEntry.get_text()
+        self.tagObj.name = currName
+        self.tagObj.field = currField
+        self.tagObj.annotation = currAnnot
+        print(self.tagObj.field)
+        
+            
 work = [["Session A",
               ["State 1", False],
               ["State 2", False]],
