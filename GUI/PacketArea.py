@@ -15,15 +15,15 @@ from Workspace import Workspace
 
 class PacketArea(Gtk.Window):
 
-    def __init__(self, workspace):
-        Gtk.Window.__init__(self, title="PacketArea")
-        pdmlListBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+    # def __init__(self, workspace):
+    #     Gtk.Window.__init__(self, title="PacketArea")
+    #     pdmlListBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
 
-        packetArea = pckt.Tabs(workspace)
-        pdmlListBox.add(packetArea)
-        bottomPart = self.bottomPDMLView()
-        pdmlListBox.add(bottomPart)
-        #win.show()
+    #     packetArea = pckt.Tabs(workspace)
+    #     pdmlListBox.add(packetArea)
+    #     bottomPart = self.bottomPDMLView()
+    #     pdmlListBox.add(bottomPart)
+    #     #win.show()
 
     def Tabs(self, workspace):
         currentWorkspace = workspace
@@ -53,7 +53,7 @@ class PacketArea(Gtk.Window):
                 # for k in range(len(code[i][j])):
                 #     store.append(ppiter, [code[i][j][k]])
                     
-        print(store)
+        self.print_tree_store(store)
 
         view = Gtk.TreeView(store)
         #view.set_model(store)
@@ -98,6 +98,18 @@ class PacketArea(Gtk.Window):
         btnBox.pack_end(removeBtn, True, True, 1)
 
         return packetTab
+
+    def print_tree_store(self, store):
+        rootiter = store.get_iter_first()
+        self.print_rows(store, rootiter, "")
+
+    def print_rows(self, store, treeiter, indent):
+        while treeiter is not None:
+            print(indent + str(store[treeiter][:]))
+            if store.iter_has_child(treeiter):
+                childiter = store.iter_children(treeiter)
+                self.print_rows(store, childiter, indent + "\t")
+            treeiter = store.iter_next(treeiter)
 
     def createPDMLview(self, pdml):
         fields = []
