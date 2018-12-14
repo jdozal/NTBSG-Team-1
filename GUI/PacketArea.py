@@ -119,6 +119,7 @@ class PacketArea(Gtk.Window):
         btnBox.pack_end(clearBtn, True, True, 1)
         btnBox.pack_end(removeBtn, True, True, 1)
 
+
         return packetTab
 
     def print_tree_store(self, store):
@@ -132,44 +133,58 @@ class PacketArea(Gtk.Window):
                 childiter = store.iter_children(treeiter)
                 self.print_rows(store, childiter, indent + "\t")
             treeiter = store.iter_next(treeiter)
+#
+#    def createPDMLview(self, pdml):
+#        fields = []
+#        protocols = []
+#        packets = []
+#        
+#        packetlen = len(pdml.packetList)
+#
+#        tstr = ''
+#
+#        for i in range(packetlen):
+#            packets = []
+#            tempPacket = pdml.packetList[i]
+#            tstr = tempPacket.plainXML
+#            #print(tstr)
+#            packets.append(tstr)
+#            protolen = len(tempPacket.protoList)
+#
+#            if(protolen>0):
+#                for j in range(protolen):
+#                    protocols = []
+#                    tempProto = tempPacket.protoList[j]
+#                    tstr = tempProto.plainXML
+#                    #print(tstr)
+#                    protocols.append(tstr)
+#                    fieldlen = len(tempProto.fieldList)
+#
+#                    # if(fieldlen>0):
+#                    #     for k in range(fieldlen):
+#                    #         fields = []
+#                    #         tempField = tempProto.fieldList[k]
+#                    #         tstr = tempField.plainXML
+#                    #         #print(tstr)
+#                    #         fields.append(tstr)
+#                    # protocols.append(fields)
+#            packets.append(protocols)
+#
+#        return packets
 
+            
     def createPDMLview(self, pdml):
-        fields = []
-        protocols = []
-        packets = []
+
+        output=[]
         
-        packetlen = len(pdml.packetList)
-
-        tstr = ''
-
-        for i in range(packetlen):
-            packets = []
-            tempPacket = pdml.packetList[i]
-            tstr = tempPacket.plainXML
-            #print(tstr)
-            packets.append(tstr)
-            protolen = len(tempPacket.protoList)
-
-            if(protolen>0):
-                for j in range(protolen):
-                    protocols = []
-                    tempProto = tempPacket.protoList[j]
-                    tstr = tempProto.plainXML
-                    #print(tstr)
-                    protocols.append(tstr)
-                    fieldlen = len(tempProto.fieldList)
-
-                    # if(fieldlen>0):
-                    #     for k in range(fieldlen):
-                    #         fields = []
-                    #         tempField = tempProto.fieldList[k]
-                    #         tstr = tempField.plainXML
-                    #         #print(tstr)
-                    #         fields.append(tstr)
-                    # protocols.append(fields)
-            packets.append(protocols)
-
-        return packets
+        for packet in pdml.packetList:
+            protolist = packet.getProtocolsType()
+            if protolist:
+                protolist.append(packet.getProtocolsShowname())
+                output.append(protolist)
+                
+        
+        return output
 
 
     def update_pdml(self):

@@ -31,6 +31,20 @@ class Packet:
             currProto = Protocol.Protocol(protoName, protoShowname, protoSize, 
                                           protoPos, protoShow, protoValue, plainXML)  
             self.protoList.append(currProto)
+            
+            
+    def getProtocolsType(self):
+        protooutput = []
+        for proto in self.protoList:
+            protooutput.append(proto.name)
+        return protooutput
+    
+    
+    def getProtocolsShowname(self):
+        protooutput = []
+        for proto in self.protoList:
+            protooutput.append(proto.showname)
+        return protooutput
 
     #def print(self):
      #   return <proto name="icmp" pos="34" showname="Internet Control Message Protocol" size="36">

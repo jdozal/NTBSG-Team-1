@@ -7,11 +7,11 @@ class Field:
     
     def __init__(self, name, showname, size, pos, show, value, plainXML):
         self.name = name
-        self.showname = name
+        self.showname = showname
         self.size = size
-        self.pos = size
-        self.show = size
-        self.value = size
+        self.pos = pos
+        self.show = show
+        self.value = value
         self.plainXML = plainXML
         # Testing purposes
         #print(self.name)        

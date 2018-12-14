@@ -9,7 +9,7 @@ class Protocol:
     
     def __init__(self, name, showname, size, pos, show, value, plainXML):
         self.name = name
-        self.showname = name
+        self.showname = showname
         self.size = size
         self.pos = size
         self.show = size
