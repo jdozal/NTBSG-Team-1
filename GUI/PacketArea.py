@@ -13,7 +13,17 @@ import sys
 sys.path.append('../')
 from Workspace import Workspace
 
-class PacketArea:
+class PacketArea(Gtk.Window):
+
+    def __init__(self, workspace):
+        Gtk.Window.__init__(self, title="PacketArea")
+        pdmlListBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+
+        packetArea = pckt.Tabs(workspace)
+        pdmlListBox.add(packetArea)
+        bottomPart = self.bottomPDMLView()
+        pdmlListBox.add(bottomPart)
+        #win.show()
 
     def Tabs(self, workspace):
         currentWorkspace = workspace
@@ -35,13 +45,13 @@ class PacketArea:
             code = self.createPDMLview(workspace.sessions[0].getLatest())
 
         for i in range(len(code)):
-            piter = store.append(None, [code[i][0][0]])
+            piter = store.append(None, [code[i][0]])
             
             for j in range(len(code[i])):
-                ppiter = store.append(piter, [code[i][j][0]])
+                store.append(piter, [code[i][j]])
                 
-                for k in range(len(code[i][j])):
-                    store.append(ppiter, [code[i][j][k]])
+                # for k in range(len(code[i][j])):
+                #     store.append(ppiter, [code[i][j][k]])
                     
         print(store)
 
@@ -115,14 +125,14 @@ class PacketArea:
                     protocols.append(tstr)
                     fieldlen = len(tempProto.fieldList)
 
-                    if(fieldlen>0):
-                        for k in range(fieldlen):
-                            fields = []
-                            tempField = tempProto.fieldList[k]
-                            tstr = tempField.plainXML
-                            #print(tstr)
-                            fields.append(tstr)
-                    protocols.append(fields)
+                    # if(fieldlen>0):
+                    #     for k in range(fieldlen):
+                    #         fields = []
+                    #         tempField = tempProto.fieldList[k]
+                    #         tstr = tempField.plainXML
+                    #         #print(tstr)
+                    #         fields.append(tstr)
+                    # protocols.append(fields)
             packets.append(protocols)
 
         return packets

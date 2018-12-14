@@ -20,7 +20,7 @@ import PCAP
 import Dissector 
 import PDML
 
-class PDMLview:
+class PDMLview(Gtk.Window):
 
     currentWorkspace = Workspace("","")
 
@@ -59,13 +59,14 @@ class PDMLview:
         # pdmlListBox.add(grid)
 
         # packet area
-        pckt = PacketArea.PacketArea()
-        packetArea = pckt.Tabs(currentWorkspace)
+        #pckt = PacketArea.PacketArea()
+        #packetArea = pckt.Tabs(currentWorkspace)
         # grid.add(packetArea)
-        pdmlListBox.add(packetArea)
 
-        bottomPart = self.bottomPDMLView()
-        pdmlListBox.add(bottomPart)
+        #pdmlListBox.add(packetArea)
+
+        # bottomPart = self.bottomPDMLView()
+        # pdmlListBox.add(bottomPart)
 
         #thisListBox.add(packetTab)
         #thisListBox.add(bottomTab)
@@ -184,6 +185,10 @@ class PDMLview:
         pdml.setName(namePDML)
         pdml.parse(workspace.path, filterT)
         workspace.sessions[0].addPDML(pdml)
+
+        win = PacketArea(workspace)
+        win.show_all()
+
         
 
     def bottomPDMLView(self):
